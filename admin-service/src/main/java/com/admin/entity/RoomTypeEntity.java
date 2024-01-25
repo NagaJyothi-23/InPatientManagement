@@ -1,4 +1,4 @@
-package com.admin.service.entity;
+package com.admin.entity;
 
 public class RoomTypeEntity {
 	public static void main(String[] args) {
