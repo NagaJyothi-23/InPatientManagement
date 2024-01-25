@@ -1,39 +1,19 @@
-package com.patient.billing.service.entity;
+package com.patient.billing.service.bean;
 
-
-
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Date;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "billing")
-public class PatientBillingEntity {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "bill_id")
+public class PatientBillingBean {
 	private int billId;
 
-	@Column(name = "bill_date")
 	private LocalDate billingDate;
-	@Column(name = "bed_allocation_id")
 	private int bedAllocationId;
-	@Column(name = "paid_amount")
+
 	private double paidAmount;
-	@Column(name = "discount")
+
 	private double discount;
-	@Column(name = "total_amount")
+
 	private double totalAmount;
-	@Column(name = "payment_status")
 	private String paymentStatus;
 
 	public int getBillId() {
@@ -92,7 +72,7 @@ public class PatientBillingEntity {
 		this.paymentStatus = paymentStatus;
 	}
 
-	public PatientBillingEntity(int billId, LocalDate billingDate, int bedAllocationId, double paidAmount, double discount,
+	public PatientBillingBean(int billId, LocalDate billingDate, int bedAllocationId, double paidAmount, double discount,
 			double totalAmount, String paymentStatus) {
 		super();
 		this.billId = billId;
@@ -104,8 +84,8 @@ public class PatientBillingEntity {
 		this.paymentStatus = paymentStatus;
 	}
 
-	public PatientBillingEntity() {
-		super();
+	public PatientBillingBean() {
+
 	}
 
 }
