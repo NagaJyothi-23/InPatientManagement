@@ -1,4 +1,4 @@
-package com.admin.service.implimentation;
+package com.admin.service.implementation;
 
 import java.util.List;
 import java.util.Optional;
