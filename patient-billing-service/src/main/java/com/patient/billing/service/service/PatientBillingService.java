@@ -13,6 +13,6 @@ public interface PatientBillingService {
 	public List<PatientBillingBean> getAll();
 	public Optional<PatientBillingEntity> getById(Integer patientBillingId);
     public PatientBillingEntity update(Integer billingId,Double paymentAmmount);
-	BedAllocationBean getDetails(int id);
+	BedAllocationBean getDetails(int bedId);
 	
 }

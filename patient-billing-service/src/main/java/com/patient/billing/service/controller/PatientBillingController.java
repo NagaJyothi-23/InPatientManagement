@@ -32,10 +32,10 @@ public class PatientBillingController
 	
 	
 	  @GetMapping(path="/details/{id}")
-	  public ResponseEntity<BedAllocationBean>details(@PathVariable (value ="id")Integer id)
+	  public ResponseEntity<BedAllocationBean>details(@PathVariable (value ="id")Integer bedId)
 	   {
 		   System.out.println("controller");
-		  BedAllocationBean patientBillingBean= patientBillingService.getDetails(id);
+		  BedAllocationBean patientBillingBean= patientBillingService.getDetails(bedId);
 		   return new ResponseEntity<BedAllocationBean>(patientBillingBean,HttpStatus.OK) ;
 	   }
 	  
