@@ -45,7 +45,6 @@ public class BedAllocationServiceImpl implements BedAllocationService{
 		// TODO Auto-generated method stub
 		BedAllocation bedAllocation1= bedAllocationRepository.getReferenceById(bedAllocation.getBedNo());
 		bedAllocation1.setBedNo(bedAllocation.getBedNo());
-		bedAllocation1.setWard_id(bedAllocation.getWard_id());
 		bedAllocation1.setStart_date(bedAllocation.getStart_date());
 		bedAllocation1.setEnd_date(bedAllocation.getEnd_date());
 		bedAllocation1.setNo_of_days(bedAllocation.getNo_of_days());
