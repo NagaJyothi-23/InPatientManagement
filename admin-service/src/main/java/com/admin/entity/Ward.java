@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,8 +24,9 @@ public class Ward {
 	private int capacity;
 	@Column(name = "availability")
 	private int availability;
-	@Column(name = "medication_id")
-	private int medication_id;
+	@ManyToOne
+	@JoinColumn(name = "medication_id",referencedColumnName = "id")
+	private Medication medication_id;
 
 	public long getWard_id() {
 		return ward_id;
@@ -57,15 +60,15 @@ public class Ward {
 		this.availability = availability;
 	}
 
-	public int getMedication_id() {
+	public Medication getMedication_id() {
 		return medication_id;
 	}
 
-	public void setMedication_id(int medication_id) {
+	public void setMedication_id(Medication medication_id) {
 		this.medication_id = medication_id;
 	}
 
-	public Ward(int ward_id, String ward_name, int capacity, int availability, int medication_id) {
+	public Ward(int ward_id, String ward_name, int capacity, int availability, Medication medication_id) {
 		this.ward_id = ward_id;
 		this.ward_name = ward_name;
 		this.capacity = capacity;
