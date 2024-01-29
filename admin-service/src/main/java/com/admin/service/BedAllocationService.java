@@ -1,6 +1,7 @@
 package com.admin.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.admin.entity.BedAllocation;
 

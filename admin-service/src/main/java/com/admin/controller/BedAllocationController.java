@@ -19,6 +19,7 @@ import com.admin.entity.Medication;
 import com.admin.service.BedAllocationService;
 
 
+
 @RestController
 @RequestMapping(path="bedAllocation")
 public class BedAllocationController {
@@ -37,8 +38,9 @@ public class BedAllocationController {
 	@GetMapping("/getById/{id}")
 	public ResponseEntity<BedAllocation> getById(@PathVariable long id) {
 		BedAllocation bed=bedAllocationService.getById(id);
-		ResponseEntity<BedAllocation> responseEntity = new ResponseEntity<>(bed, HttpStatus.OK);
-		return responseEntity;
+//		ResponseEntity<BedAllocation> responseEntity = new ResponseEntity<>(bed, HttpStatus.OK);
+//		return responseEntity;
+		return new ResponseEntity<BedAllocation>(bed,HttpStatus.OK) ;
 	}
 	
 	@GetMapping("/getAll")
