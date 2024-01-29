@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.admin.bean.MedicationBean;
 import com.admin.entity.Medication;
 import com.admin.service.MedicationService;
 
@@ -24,31 +25,31 @@ public class MedicationController {
 	MedicationService medicationService;
 	
 	@PostMapping("/save")
-	public ResponseEntity<Medication> save(@RequestBody Medication medication) {
+	public ResponseEntity<MedicationBean> save(@RequestBody MedicationBean medication) {
 		medicationService.save(medication);
-		ResponseEntity<Medication> responseEntity = new ResponseEntity<>(medication, HttpStatus.CREATED);
+		ResponseEntity<MedicationBean> responseEntity = new ResponseEntity<>(medication, HttpStatus.CREATED);
 		return responseEntity;
 	}
 	
 	@GetMapping("/getById/{id}")
-	public ResponseEntity<Medication> getById(@PathVariable long id) {
-		Medication medication=medicationService.getById(id);
-		ResponseEntity<Medication> responseEntity = new ResponseEntity<>(medication, HttpStatus.OK);
+	public ResponseEntity<MedicationBean> getById(@PathVariable long id) {
+		MedicationBean medication=medicationService.getById(id);
+		ResponseEntity<MedicationBean> responseEntity = new ResponseEntity<>(medication, HttpStatus.OK);
 		return responseEntity;
 	}
 	
 	@GetMapping("/getAll")
-	public ResponseEntity<List<Medication>> getAll() {
-		List<Medication> list=medicationService.getAll();
-		ResponseEntity<List<Medication>> responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
+	public ResponseEntity<List<MedicationBean>> getAll() {
+		List<MedicationBean> list=medicationService.getAll();
+		ResponseEntity<List<MedicationBean>> responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
 		return responseEntity;
 	}
 	
 	@DeleteMapping("/deleteById/{id}")
-	public  ResponseEntity deleteById(@PathVariable long id)
+	public  ResponseEntity<Medication> deleteById(@PathVariable long id)
 	{
 		medicationService.delete(id);
-		ResponseEntity responseEntity=new ResponseEntity<>(HttpStatus.OK);
+		ResponseEntity<Medication> responseEntity=new ResponseEntity<>(HttpStatus.OK);
 		return responseEntity;
 	}
 	
