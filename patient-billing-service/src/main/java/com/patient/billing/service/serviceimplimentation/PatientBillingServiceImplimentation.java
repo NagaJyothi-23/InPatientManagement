@@ -1,5 +1,4 @@
 package com.patient.billing.service.serviceimplimentation;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,8 +7,15 @@ import java.util.Optional;
 
 import org.apache.tomcat.util.http.ConcurrentDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import com.patient.billing.service.bean.BedAllocationBean;
 import com.patient.billing.service.bean.PatientBillingBean;
 import com.patient.billing.service.entity.PatientBillingEntity;
 import com.patient.billing.service.exception.BillingIdNotFoundException;
@@ -21,6 +27,37 @@ import com.patient.billing.service.service.PatientBillingService;
 public class PatientBillingServiceImplimentation implements PatientBillingService {
 	@Autowired
 	private PatientBillingRepository patientBillingRepository;
+	@Autowired
+	private RestTemplate restTemplate;
+	
+	
+	@Override
+	public BedAllocationBean getDetails(int id) {
+		String url = "http://localhost:8080/bedAllocation/getById/1";
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		//log.info("URL - {}", url);
+
+		// Input entity
+		HttpEntity<String> httpEntity = new HttpEntity<>(headers);
+
+		ResponseEntity<BedAllocationBean> responseEntity = restTemplate.exchange(url,
+				HttpMethod.GET, httpEntity, BedAllocationBean.class);
+		BedAllocationBean bedBean = responseEntity.getBody();
+		
+		
+//		BedAllocationBean bedBean = BedAllocationBean.builder().id(medicine.getId())
+//				.medicine(medicine.getMedicine()).price(medicine.getPrice())
+//				.patient(patientBean).build();
+		
+		//BedAllocationBean  data=patientBean.getBedAllocationId();
+
+		
+		return bedBean ;
+	}
+	
 
 	@Override
 	public void save(PatientBillingBean patientBillingBean) {
@@ -32,6 +69,11 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 		patientBillingRepository.save(patientBillingEntity);
 
 	}
+	
+	
+	
+		
+
 	@Override
 	public List<PatientBillingBean> getAll() {
 		
@@ -59,16 +101,60 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
  
 		}
 	}
-	@Override
-	public void update(int billingId, String paymentStatus, double paymentAmmount) {
-		Optional<PatientBillingEntity> patientBillingEntity=patientBillingRepository.findById(billingId);
-		int patientBillingId=patientBillingEntity.get().getBillId();
-		//if(patientBillingId.)
-		
-		
-	}
 	
+	@Override
+	public PatientBillingEntity update(Integer billingId,Double paymentAmmount) {
+		Optional<PatientBillingEntity> patientBillingEntity=patientBillingRepository.findById(billingId);
+		if(patientBillingEntity.isEmpty()) {
+			System.out.println(patientBillingEntity);
+			throw new BillingIdNotFoundException("billing id not found");
+		}
+			
+				else
+		         {
+					PatientBillingEntity patientEntity=patientBillingEntity.get();
+					
+					int patientBillingId=patientBillingEntity.get().getBillId();
+					boolean result =patientBillingRepository.existsById(patientBillingId);
+					if(result)
+					{
+						double totalAmount=patientBillingEntity.get().getTotalAmount();
+						double paidAmount=patientBillingEntity.get().getPaidAmount();
+						//double due=totalAmount-paidAmount;
+						double totalPaidAmount=paidAmount+paymentAmmount;
+						if(totalPaidAmount==totalAmount)
+						{
+							patientBillingEntity.get().setPaymentStatus("Completed");
+								patientBillingRepository.save(patientEntity);
+							
+						}
+						else
+						{
+							patientBillingEntity.get().setPaymentStatus("pending");
+						 	//throw new BillingIdNotFoundException("Billing Id not found") ;
 
+							
+						}		
+					}
+					else
+					{
+						//patientBillingEntity.get().setPaymentStatus("pending");
+					 	//throw new BillingIdNotFoundException("Billing Id not found") ;
+					 	System.out.println("id not found");
+					 	throw new BillingIdNotFoundException("billing id not found");
+
+						
+					}
+					
+					
+					
+					return patientEntity;
+							
+					}	
+
+		}
+	
+	
 
 
 	public void BeanToEntity(PatientBillingEntity patientBillingEntity,PatientBillingBean patientBillingBean) {
@@ -90,7 +176,7 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 		for(PatientBillingEntity patientEntity:patientBillingEntity)
 		{
 			patientbean.setBillId(patientEntity.getBillId());
-			patientbean.setBedAllocationId(patientEntity.getBedAllocationId());
+			//patientbean.setBedAllocationId(patientEntity.getBedAllocationId());
 			patientbean.setBillingDate(patientEntity.getBillingDate());
 			patientbean.setPaidAmount(patientEntity.getPaidAmount());
 			patientbean.setDiscount(patientEntity.getDiscount());
@@ -106,7 +192,7 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 			PatientBillingBean patientbean=new PatientBillingBean();
 			
 				patientbean.setBillId(patientBillingEntity.getBillId());
-				patientbean.setBedAllocationId(patientBillingEntity.getBedAllocationId());
+				//patientbean.setBedAllocationId(patientBillingEntity.getBedAllocationId());
 				patientbean.setBillingDate(patientBillingEntity.getBillingDate());
 				patientbean.setPaidAmount(patientBillingEntity.getPaidAmount());
 				patientbean.setDiscount(patientBillingEntity.getDiscount());
@@ -115,5 +201,5 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 				
 			
 	}
-		
+
 }
