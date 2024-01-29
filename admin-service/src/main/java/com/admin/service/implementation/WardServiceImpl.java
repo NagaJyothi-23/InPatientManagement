@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.admin.entity.Medication;
 import com.admin.entity.Ward;
+import com.admin.exception.RecordNotFoundException;
 import com.admin.repository.WardRepository;
 import com.admin.service.WardService;
 
@@ -24,7 +26,8 @@ public class WardServiceImpl implements WardService {
 
 	@Override
 	public Ward get(Long id) {
-		Ward ward = wardRepository.getReferenceById(id);
+		// TODO Auto-generated method stub
+		Ward ward= wardRepository.findById(id).orElseThrow(()->new RecordNotFoundException("No Record Found with given id"));
 		return ward;
 	}
 	public List<Ward> getAll() {

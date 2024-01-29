@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.admin.entity.BedAllocation;
+import com.admin.entity.Medication;
 import com.admin.service.BedAllocationService;
 
 
@@ -55,11 +56,21 @@ public class BedAllocationController {
 		return responseEntity;
 	}
 	
-	@PutMapping("/update")
-	public  ResponseEntity deleteById(@RequestBody BedAllocation bedAllocation)
-	{
-		bedAllocationService.update(bedAllocation);
-		ResponseEntity responseEntity=new ResponseEntity<>(HttpStatus.OK);
+	@PutMapping
+	public ResponseEntity<BedAllocation> put(@RequestBody BedAllocation bedAllocation) throws Exception {
+
+		BedAllocation bedAllocation1 = bedAllocationService.getById(bedAllocation.getBedNo());
+		if (bedAllocation1 != null) {
+			bedAllocation1.setRoomtype_id(bedAllocation.getRoomtype_id());
+			bedAllocation1.setNo_of_days(bedAllocation.getNo_of_days());
+			bedAllocation1.setStart_date(bedAllocation.getStart_date());
+			bedAllocation1.setEnd_date(bedAllocation.getEnd_date());
+			bedAllocation1.setStatus(bedAllocation.getStatus());
+
+
+			bedAllocationService.save(bedAllocation1);
+		}
+		ResponseEntity<BedAllocation> responseEntity = new ResponseEntity<>(bedAllocation1, HttpStatus.OK);
 		return responseEntity;
 	}
 }
