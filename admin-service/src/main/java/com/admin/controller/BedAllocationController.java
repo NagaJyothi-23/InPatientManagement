@@ -14,65 +14,60 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.admin.bean.BedAllocationBean;
 import com.admin.entity.BedAllocation;
-import com.admin.entity.Medication;
 import com.admin.service.BedAllocationService;
 
-
-
 @RestController
-@RequestMapping(path="bedAllocation")
+@RequestMapping(path = "bedAllocation")
 public class BedAllocationController {
 
 	@Autowired
 	BedAllocationService bedAllocationService;
+
 	@PostMapping("/save")
-	public ResponseEntity<BedAllocation> save(@RequestBody BedAllocation bedAllocation)
-	{
-		BedAllocation bedAllocation1=bedAllocationService.save(bedAllocation);
-		ResponseEntity<BedAllocation> responseEntity=new ResponseEntity<>(bedAllocation1,HttpStatus.CREATED);
+	public ResponseEntity<BedAllocationBean> save(@RequestBody BedAllocationBean bedAllocationBean) {
+		BedAllocationBean bedAllocation1 = bedAllocationService.save(bedAllocationBean);
+		ResponseEntity<BedAllocationBean> responseEntity = new ResponseEntity<>(bedAllocation1, HttpStatus.CREATED);
 		return responseEntity;
 	}
-	
 
 	@GetMapping("/getById/{id}")
-	public ResponseEntity<BedAllocation> getById(@PathVariable int id) {
-		BedAllocation bed=bedAllocationService.getById(id);
+	public ResponseEntity<BedAllocationBean> getById(@PathVariable int id) {
+		BedAllocationBean bedAllocation = bedAllocationService.getById(id);
 //		ResponseEntity<BedAllocation> responseEntity = new ResponseEntity<>(bed, HttpStatus.OK);
 //		return responseEntity;
-		return new ResponseEntity<BedAllocation>(bed,HttpStatus.OK) ;
+		return new ResponseEntity<BedAllocationBean>(bedAllocation, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/getAll")
-	public ResponseEntity<List<BedAllocation>> getAll() {
-		List<BedAllocation> list=bedAllocationService.getAll();
-		ResponseEntity<List<BedAllocation>> responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
+	public ResponseEntity<List<BedAllocationBean>> getAll() {
+		List<BedAllocationBean> list = bedAllocationService.getAll();
+		ResponseEntity<List<BedAllocationBean>> responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
 		return responseEntity;
 	}
-	
+
 	@DeleteMapping("/deleteById/{id}")
-	public  ResponseEntity deleteById(@PathVariable int id)
-	{
+	public ResponseEntity deleteById(@PathVariable int id) {
 		bedAllocationService.delete(id);
-		ResponseEntity responseEntity=new ResponseEntity<>(HttpStatus.OK);
+		ResponseEntity responseEntity = new ResponseEntity<>(HttpStatus.OK);
 		return responseEntity;
 	}
-	
+
 	@PutMapping
-	public ResponseEntity<BedAllocation> put(@RequestBody BedAllocation bedAllocation) throws Exception {
+	public ResponseEntity<BedAllocationBean> put(@RequestBody BedAllocationBean bedAllocationBean) throws Exception {
 
-		BedAllocation bedAllocation1 = bedAllocationService.getById(bedAllocation.getBedAllocationId());
+		BedAllocationBean bedAllocation1 = bedAllocationService.getById(bedAllocationBean.getId());
 		if (bedAllocation1 != null) {
-			bedAllocation1.setRoomtypeId(bedAllocation.getRoomtypeId());
-			bedAllocation1.setBedAllocationId(bedAllocation.getBedAllocationId());
-			bedAllocation1.setStartDate(bedAllocation.getStartDate());
-			bedAllocation1.setEndDate(bedAllocation.getEndDate());
-			bedAllocation1.setStatus(bedAllocation.getStatus());
-
+			bedAllocation1.setRoomtypeId(bedAllocationBean.getRoomtypeId());
+			bedAllocation1.setId(bedAllocationBean.getId());
+			bedAllocation1.setStartDate(bedAllocationBean.getStartDate());
+			bedAllocation1.setEndDate(bedAllocationBean.getEndDate());
+			bedAllocation1.setStatus(bedAllocationBean.getStatus());
 
 			bedAllocationService.save(bedAllocation1);
 		}
-		ResponseEntity<BedAllocation> responseEntity = new ResponseEntity<>(bedAllocation1, HttpStatus.OK);
+		ResponseEntity<BedAllocationBean> responseEntity = new ResponseEntity<>(bedAllocation1, HttpStatus.OK);
 		return responseEntity;
 	}
 }
