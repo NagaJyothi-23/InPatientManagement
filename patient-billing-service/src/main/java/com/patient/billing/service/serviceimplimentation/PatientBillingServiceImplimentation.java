@@ -42,6 +42,8 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 		ResponseEntity<BedAllocationBean> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
 				BedAllocationBean.class);
 		BedAllocationBean bedAllocation = responseEntity.getBody();
+		
+		
 		return bedAllocation;
 	}
 
@@ -132,6 +134,7 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 			patientbean.setBillingDate(patientEntity.getBillingDate());
 			patientbean.setPaidAmount(patientEntity.getPaidAmount());
 			patientbean.setDiscount(patientEntity.getDiscount());
+			patientbean.setTotalAmount(patientEntity.getTotalAmount());
 			patientbean.setPaymentStatus(patientEntity.getPaymentStatus());
 			patientBillingBean.add(patientbean);
 

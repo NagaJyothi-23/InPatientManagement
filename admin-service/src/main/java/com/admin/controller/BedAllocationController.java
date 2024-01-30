@@ -36,7 +36,7 @@ public class BedAllocationController {
 	
 
 	@GetMapping("/getById/{id}")
-	public ResponseEntity<BedAllocation> getById(@PathVariable long id) {
+	public ResponseEntity<BedAllocation> getById(@PathVariable int id) {
 		BedAllocation bed=bedAllocationService.getById(id);
 //		ResponseEntity<BedAllocation> responseEntity = new ResponseEntity<>(bed, HttpStatus.OK);
 //		return responseEntity;
@@ -51,7 +51,7 @@ public class BedAllocationController {
 	}
 	
 	@DeleteMapping("/deleteById/{id}")
-	public  ResponseEntity deleteById(@PathVariable long id)
+	public  ResponseEntity deleteById(@PathVariable int id)
 	{
 		bedAllocationService.delete(id);
 		ResponseEntity responseEntity=new ResponseEntity<>(HttpStatus.OK);
@@ -61,12 +61,12 @@ public class BedAllocationController {
 	@PutMapping
 	public ResponseEntity<BedAllocation> put(@RequestBody BedAllocation bedAllocation) throws Exception {
 
-		BedAllocation bedAllocation1 = bedAllocationService.getById(bedAllocation.getBedNo());
+		BedAllocation bedAllocation1 = bedAllocationService.getById(bedAllocation.getBedAllocationId());
 		if (bedAllocation1 != null) {
-			bedAllocation1.setRoomtype_id(bedAllocation.getRoomtype_id());
-			bedAllocation1.setNo_of_days(bedAllocation.getNo_of_days());
-			bedAllocation1.setStart_date(bedAllocation.getStart_date());
-			bedAllocation1.setEnd_date(bedAllocation.getEnd_date());
+			bedAllocation1.setRoomtypeId(bedAllocation.getRoomtypeId());
+			bedAllocation1.setBedAllocationId(bedAllocation.getBedAllocationId());
+			bedAllocation1.setStartDate(bedAllocation.getStartDate());
+			bedAllocation1.setEndDate(bedAllocation.getEndDate());
 			bedAllocation1.setStatus(bedAllocation.getStatus());
 
 

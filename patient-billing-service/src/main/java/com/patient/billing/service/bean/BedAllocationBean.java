@@ -2,13 +2,16 @@ package com.patient.billing.service.bean;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class BedAllocationBean {
 	
 	private int bedNo;
 	private long patient_id;
 	private long ward_id;
 	private int no_of_days;
-	private long roomtype_id;
+	@JsonProperty("roomtype_id")
+	private Integer roomtype_id;
 	private Date start_date;
 	private Date end_date;
 	private String status;
@@ -36,10 +39,10 @@ public class BedAllocationBean {
 	public void setNo_of_days(int no_of_days) {
 		this.no_of_days = no_of_days;
 	}
-	public long getRoomtype_id() {
+	public Integer getRoomtype_id() {
 		return roomtype_id;
 	}
-	public void setRoomtype_id(long roomtype_id) {
+	public void setRoomtype_id(Integer roomtype_id) {
 		this.roomtype_id = roomtype_id;
 	}
 	public Date getStart_date() {
@@ -60,7 +63,7 @@ public class BedAllocationBean {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public BedAllocationBean(int bedNo, long patient_id, long ward_id, int no_of_days, long roomtype_id,
+	public BedAllocationBean(int bedNo, long patient_id, long ward_id, int no_of_days, Integer roomtype_id,
 			Date start_date, Date end_date, String status) {
 		super();
 		this.bedNo = bedNo;

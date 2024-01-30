@@ -8,8 +8,8 @@ import com.admin.entity.BedAllocation;
 public interface BedAllocationService {
 
 	BedAllocation save(BedAllocation bedAllocation);
-	BedAllocation getById(long id);
+	BedAllocation getById(int id);
 	List<BedAllocation> getAll();
 	void update(BedAllocation bedAllocation);
-	void delete(long id);
+	void delete(int id);
 }
