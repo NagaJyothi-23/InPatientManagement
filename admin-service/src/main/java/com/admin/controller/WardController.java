@@ -49,24 +49,26 @@ public class WardController {
 		return new ResponseEntity<List<Ward>>(ward, HttpStatus.OK);
 
 	}
-
-	@PutMapping("/update")
+	@PutMapping
 	public ResponseEntity<Ward> put(@RequestBody Ward ward) throws Exception {
 
 		Ward ward1 = wardService.get(ward.getWard_id());
-		try {
-			if (ward1 != null) {
-				ward1.setWard_name(ward.getWard_name());
-				wardService.save(ward1);
-			}
-		} catch (RecordNotFoundException e) {
-			System.out.println("no record found with that details");
+		if (ward1 != null) {
+			ward1.setWard_name(ward.getWard_name());
+			ward1.setCapacity(ward.getCapacity());
+			ward1.setAvailability(ward.getAvailability());
+			ward1.setMedication_id(ward.getMedication_id());
+			wardService.save(ward1);
 
 		}
 		ResponseEntity<Ward> responseEntity = new ResponseEntity<>(ward1, HttpStatus.OK);
 		return responseEntity;
 	}
 
+
+	
+
+	
 	@DeleteMapping("/deleteById/{id}")
 	public ResponseEntity<Ward> delete(@PathVariable Long id) {
 		wardService.delete(id);

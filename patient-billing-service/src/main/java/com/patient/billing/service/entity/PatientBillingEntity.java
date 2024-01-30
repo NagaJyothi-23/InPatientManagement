@@ -7,6 +7,8 @@ import java.util.Date;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+import com.patient.billing.service.bean.BedAllocationBean;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +27,7 @@ public class PatientBillingEntity {
 
 	@Column(name = "bill_date")
 	private LocalDate billingDate;
+	
 	@Column(name = "bed_allocation_id")
 	private int bedAllocationId;
 	@Column(name = "paid_amount")
@@ -35,7 +38,6 @@ public class PatientBillingEntity {
 	private double totalAmount;
 	@Column(name = "payment_status")
 	private String paymentStatus;
-
 	public int getBillId() {
 		return billId;
 	}
@@ -103,7 +105,6 @@ public class PatientBillingEntity {
 		this.totalAmount = totalAmount;
 		this.paymentStatus = paymentStatus;
 	}
-
 	public PatientBillingEntity() {
 		super();
 	}
