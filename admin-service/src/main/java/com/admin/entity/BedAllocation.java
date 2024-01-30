@@ -12,90 +12,88 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="bedAllocation")
+@Table(name = "bedAllocation")
 public class BedAllocation {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="bedNo")
-	private long bedNo;
-	@Column(name="patient_id")
-	private long patient_id;
-	@Column(name="no_of_days")
-	private int no_of_days;
+	@Column(name = "bed_allocation_id")
+	private int bedAllocationId;
+	@Column(name = "patient_id")
+	private int patientId;
+	@Column(name = "no_of_days")
+	private int noOfDays;
 	@ManyToOne
-	@JoinColumn(name="roomtype_id",referencedColumnName = "roomType_id")
-	private RoomTypeEntity roomtype_id;
-	@Column(name="start_date")
-	private Date start_date;
-	@Column(name="end_date")
-	private Date end_date;
-	@Column(name="status")
+	@JoinColumn(name = "roomtype_id", referencedColumnName = "roomType_id")
+	private RoomTypeEntity roomtypeId;
+	@Column(name = "start_date")
+	private Date startDate;
+	@Column(name = "end_date")
+	private Date endDate;
+	@Column(name = "status")
 	private String status;
-	
+
 	public BedAllocation() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public BedAllocation(long bedNo, long patient_id, int no_of_days,RoomTypeEntity  roomtype_id, Date start_date,
-			Date end_date, String status) {
+	public BedAllocation(int bedAllocationId, int patientId, int noOfDays, RoomTypeEntity roomtypeId, Date startDate,
+			Date endDate, String status) {
 		super();
-		this.bedNo = bedNo;
-		this.patient_id = patient_id;
-		this.no_of_days = no_of_days;
-		this.roomtype_id = roomtype_id;
-		this.start_date = start_date;
-		this.end_date = end_date;
+		this.bedAllocationId = bedAllocationId;
+		this.patientId = patientId;
+		this.noOfDays = noOfDays;
+		this.roomtypeId = roomtypeId;
+		this.startDate = startDate;
+		this.endDate = endDate;
 		this.status = status;
 	}
 
-	public long getBedNo() {
-		return bedNo;
+	public int getBedAllocationId() {
+		return bedAllocationId;
 	}
 
-	public void setBedNo(long bedNo) {
-		this.bedNo = bedNo;
+	public void setBedAllocationId(int bedAllocationId) {
+		this.bedAllocationId = bedAllocationId;
 	}
 
-	public long getPatient_id() {
-		return patient_id;
+	public int getPatientId() {
+		return patientId;
 	}
 
-	public void setPatient_id(long patient_id) {
-		this.patient_id = patient_id;
+	public void setPatientId(int patientId) {
+		this.patientId = patientId;
 	}
 
-	public int getNo_of_days() {
-		return no_of_days;
+	public int getNoOfDays() {
+		return noOfDays;
 	}
 
-	public void setNo_of_days(int no_of_days) {
-		this.no_of_days = no_of_days;
+	public void setNoOfDays(int noOfDays) {
+		this.noOfDays = noOfDays;
 	}
 
-	public RoomTypeEntity getRoomtype_id() {
-		return roomtype_id;
+	public RoomTypeEntity getRoomtypeId() {
+		return roomtypeId;
 	}
 
-	public void setRoomtype_id(RoomTypeEntity roomtype_id) {
-		this.roomtype_id = roomtype_id;
+	public void setRoomtypeId(RoomTypeEntity roomtypeId) {
+		this.roomtypeId = roomtypeId;
 	}
 
-	public Date getStart_date() {
-		return start_date;
+	public Date getStartDate() {
+		return startDate;
 	}
 
-	public void setStart_date(Date start_date) {
-		this.start_date = start_date;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 
-	public Date getEnd_date() {
-		return end_date;
+	public Date getEndDate() {
+		return endDate;
 	}
 
-	public void setEnd_date(Date end_date) {
-		this.end_date = end_date;
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public String getStatus() {
@@ -108,12 +106,10 @@ public class BedAllocation {
 
 	@Override
 	public String toString() {
-		return "BedAllocation [bedNo=" + bedNo + ", patient_id=" + patient_id + ", no_of_days="
-				+ no_of_days + ", roomtype_id=" + roomtype_id + ", start_date=" + start_date + ", end_date=" + end_date
+		return "BedAllocation [bedAllocationId=" + bedAllocationId + ", patientId=" + patientId + ", noOfDays="
+				+ noOfDays + ", roomtypeId=" + roomtypeId + ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", status=" + status + "]";
 	}
-	
-	
-	
+
 	
 }

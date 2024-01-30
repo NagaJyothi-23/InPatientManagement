@@ -22,7 +22,7 @@ public class BedAllocationServiceImpl implements BedAllocationService{
 	}
 
 	@Override
-	public BedAllocation getById(long id) {
+	public BedAllocation getById(int id) {
 		// TODO Auto-generated method stub
 		return bedAllocationRepository.findById(id).orElseThrow(()->new RecordNotFoundException("No Record Found with given id"));
 	}
@@ -34,7 +34,7 @@ public class BedAllocationServiceImpl implements BedAllocationService{
 	}
 
 	@Override
-	public void delete(long id) {
+	public void delete(int id) {
 		// TODO Auto-generated method stub
 		bedAllocationRepository.deleteById(id);
 		
@@ -43,13 +43,13 @@ public class BedAllocationServiceImpl implements BedAllocationService{
 	@Override
 	public void update(BedAllocation bedAllocation) {
 		// TODO Auto-generated method stub
-		BedAllocation bedAllocation1= bedAllocationRepository.getReferenceById(bedAllocation.getBedNo());
-		bedAllocation1.setBedNo(bedAllocation.getBedNo());
-		bedAllocation1.setStart_date(bedAllocation.getStart_date());
-		bedAllocation1.setEnd_date(bedAllocation.getEnd_date());
-		bedAllocation1.setNo_of_days(bedAllocation.getNo_of_days());
-		bedAllocation1.setPatient_id(bedAllocation.getPatient_id());
-		bedAllocation1.setRoomtype_id(bedAllocation.getRoomtype_id());
+		BedAllocation bedAllocation1= bedAllocationRepository.getReferenceById(bedAllocation.getBedAllocationId());
+		bedAllocation1.setBedAllocationId(bedAllocation.getBedAllocationId());
+		bedAllocation1.setStartDate(bedAllocation.getStartDate());
+		bedAllocation1.setEndDate(bedAllocation.getEndDate());
+		bedAllocation1.setNoOfDays(bedAllocation.getNoOfDays());
+		bedAllocation1.setPatientId(bedAllocation.getPatientId());
+		bedAllocation1.setRoomtypeId(bedAllocation.getRoomtypeId());
 		bedAllocation1.setStatus(bedAllocation.getStatus());
 		bedAllocationRepository.save(bedAllocation1);
 

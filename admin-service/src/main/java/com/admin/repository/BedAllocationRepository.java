@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import com.admin.entity.BedAllocation;
 @Repository
-public interface BedAllocationRepository extends JpaRepository<BedAllocation,Long>{
+public interface BedAllocationRepository extends JpaRepository<BedAllocation,Integer>{
 
 }
