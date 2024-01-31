@@ -1,6 +1,8 @@
 package com.admin.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,48 +19,40 @@ public class RoomTypeServiceImplementation implements RoomTypeService {
 	@Autowired
 	RoomTypeRepository roomTypeRepository;
 
-	public RoomTypeEntity convertBeantoEntity(RoomTypeBean bean) {
-		RoomTypeEntity entity = new RoomTypeEntity();
-		entity.setRoomType_id(bean.getRoomType_id());
-		entity.setRoomType_name(bean.getRoomType_name());
-		entity.setRoomSharing(bean.getRoomSharing());
-		entity.setRoomPrice(bean.getRoomPrice());
-		entity.setWard_id(bean.getWard_id());
-		return entity;
-	}
-
 	@Override
-	public void save(RoomTypeEntity roomType) {
-		roomTypeRepository.save(roomType);
-	}
-
-	@Override
-	public List<RoomTypeEntity> getAll() {
-		List<RoomTypeEntity> roomlist = roomTypeRepository.findAll();
-		return roomlist;
+	public void save(RoomTypeBean roomTypeBean) {
+		RoomTypeEntity roomTypeEntity=new RoomTypeEntity();
+		beanToEntity(roomTypeEntity,roomTypeBean);
+		roomTypeRepository.save(roomTypeEntity);
 
 	}
 
 	@Override
-	public RoomTypeEntity getById(long id) {
-		return roomTypeRepository.findById(id)
-				.orElseThrow(() -> new RecordNotFoundException("Room not found with id" + id));
+	public List<RoomTypeBean> getAll() {
+		List<RoomTypeBean> roomTypeBean =new ArrayList<>();
+		List<RoomTypeEntity> roomTypeEntity=roomTypeRepository.findAll();
+		entityToBean(roomTypeEntity, roomTypeBean);
+		return roomTypeBean;	
+	}
+	@Override
+	public RoomTypeBean getById(long id) {
+		RoomTypeBean roomTypeBean=new RoomTypeBean();
+		RoomTypeEntity roomEntity=roomTypeRepository.findById(id).orElseThrow(()
+				->new RecordNotFoundException("record not found"));
+		entityToBean(roomEntity, roomTypeBean);
+		return roomTypeBean;
+				
 	}
 
-	public RoomTypeBean convertEntitytoBean(RoomTypeEntity entity) {
-		RoomTypeBean bean = new RoomTypeBean();
-		bean.setRoomType_id(entity.getRoomType_id());
-		bean.setRoomType_name(entity.getRoomType_name());
-		bean.setRoomSharing(entity.getRoomSharing());
-		bean.setRoomPrice(entity.getRoomPrice());
-		bean.setWard_id(entity.getWard_id());
-		return bean;
-	}
-
+	
 	@Override
 	public RoomTypeEntity update(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	  RoomTypeEntity roomTypeId= roomTypeRepository.findById(id).orElseThrow(()
+			  ->new RecordNotFoundException("record not found"));
+		RoomTypeBean roomTypeBean=new RoomTypeBean();
+		entityToBean(roomTypeId, roomTypeBean);
+		return roomTypeId;
+		
 	}
 
 	@Override
@@ -66,5 +60,37 @@ public class RoomTypeServiceImplementation implements RoomTypeService {
 		roomTypeRepository.deleteById(id);
 
 	}
+	public void beanToEntity(RoomTypeEntity roomTypeEntity, RoomTypeBean roomTypeBean) {
+		roomTypeEntity.setId(roomTypeBean.getId());
+		roomTypeEntity.setName(roomTypeBean.getName());
+		roomTypeEntity.setRoomPrice(roomTypeBean.getRoomPrice());
+		roomTypeEntity.setRoomSharing(roomTypeBean.getRoomSharing());
+		roomTypeEntity.setWardId(roomTypeBean.getWardId());
+	}
+
+	public void entityToBean(List<RoomTypeEntity> listEntity,
+			List<RoomTypeBean> listbean) {
+		RoomTypeBean roomBean=new RoomTypeBean();
+		for(RoomTypeEntity roomEntity:listEntity) {
+			roomBean.setId(roomEntity.getId());
+			roomBean.setName(roomEntity.getName());
+			roomBean.setRoomPrice(roomEntity.getRoomPrice());
+			roomBean.setRoomSharing(roomEntity.getRoomSharing());
+			roomBean.setWardId(roomEntity.getWardId());
+		}
+	}
+
+	public void entityToBean(RoomTypeEntity roomTypeEntity, RoomTypeBean roomTypeBean) {
+
+		RoomTypeBean roomBean=new RoomTypeBean();
+		roomBean.setId(roomTypeEntity.getId());
+		roomBean.setName(roomTypeEntity.getName());
+		roomBean.setRoomPrice(roomTypeEntity.getRoomPrice());
+		roomBean.setRoomSharing(roomTypeEntity.getRoomSharing());
+		roomBean.setWardId(roomTypeEntity.getWardId());
+
+	}
+
+	
 
 }

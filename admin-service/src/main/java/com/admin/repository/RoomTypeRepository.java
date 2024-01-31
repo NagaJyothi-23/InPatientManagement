@@ -7,4 +7,5 @@ import com.admin.entity.RoomTypeEntity;
 @Repository
 public interface RoomTypeRepository extends JpaRepository<RoomTypeEntity,Long>{
 
+
 }

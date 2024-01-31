@@ -1,17 +1,20 @@
 package com.admin.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.admin.bean.RoomTypeBean;
 import com.admin.entity.RoomTypeEntity;
 
 public interface RoomTypeService {
-	public void save(RoomTypeEntity roomTypeEntity);
+	void save(RoomTypeBean roomTypeBean);
+	List<RoomTypeBean> getAll();
 
-	List<RoomTypeEntity> getAll();
-
-	RoomTypeEntity getById(long id);
+	RoomTypeBean getById(long id);
 
 	RoomTypeEntity update(long id);
 
 	public void delete(long id);
+
+	
 }
