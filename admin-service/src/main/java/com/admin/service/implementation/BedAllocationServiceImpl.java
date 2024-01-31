@@ -1,10 +1,12 @@
 package com.admin.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.admin.bean.BedAllocationBean;
 import com.admin.entity.BedAllocation;
 import com.admin.exception.RecordNotFoundException;
 import com.admin.repository.BedAllocationRepository;
@@ -16,42 +18,89 @@ public class BedAllocationServiceImpl implements BedAllocationService{
 	@Autowired
 	BedAllocationRepository bedAllocationRepository; 
 	@Override
-	public BedAllocation save(BedAllocation bedAllocation) {
+	public BedAllocationBean save(BedAllocationBean bedAllocationBean) {
 		// TODO Auto-generated method stub
-		return bedAllocationRepository.save( bedAllocation);
+		BedAllocation bedAllocation=new BedAllocation();
+		beanToEntity(bedAllocationBean,bedAllocation);
+	    bedAllocationRepository.save( bedAllocation);
+	    return bedAllocationBean;
+	}
+
+	private void beanToEntity(BedAllocationBean bedAllocationBean, BedAllocation bedAllocation) {
+		// TODO Auto-generated method stub
+		bedAllocation.setId(bedAllocationBean.getId());
+		bedAllocation.setRoomtypeId(bedAllocationBean.getRoomtypeId());
+		bedAllocation.setPatientId(bedAllocationBean.getPatientId());
+		bedAllocation.setNoOfDays(bedAllocationBean.getNoOfDays());
+		bedAllocation.setStartDate(bedAllocationBean.getStartDate());
+		bedAllocation.setEndDate(bedAllocationBean.getEndDate());
+		bedAllocation.setStatus(bedAllocationBean.getStatus());
 	}
 
 	@Override
-	public BedAllocation getById(long id) {
+	public BedAllocationBean getById(int id) {
 		// TODO Auto-generated method stub
-		return bedAllocationRepository.findById(id).orElseThrow(()->new RecordNotFoundException("No Record Found with given id"));
+		BedAllocation bedAllocation= bedAllocationRepository.findById(id).orElseThrow(()->new RecordNotFoundException("No Record Found with given id"));
+		BedAllocationBean bedAllocationBean=new BedAllocationBean();
+		entityToBean(bedAllocation,bedAllocationBean);
+		return bedAllocationBean;
+	}
+
+	private void entityToBean(BedAllocation bedAllocation, BedAllocationBean bedAllocationBean) {
+		// TODO Auto-generated method stub
+		bedAllocationBean.setId(bedAllocation.getId());
+		bedAllocationBean.setEndDate(bedAllocation.getEndDate());
+		bedAllocationBean.setNoOfDays(bedAllocation.getNoOfDays());
+		bedAllocationBean.setStartDate(bedAllocation.getStartDate());
+		bedAllocationBean.setPatientId(bedAllocation.getPatientId());
+		bedAllocationBean.setRoomtypeId(bedAllocation.getRoomtypeId());
+		bedAllocationBean.setStatus(bedAllocation.getStatus());
 	}
 
 	@Override
-	public List<BedAllocation> getAll() {
+	public List<BedAllocationBean> getAll() {
 		// TODO Auto-generated method stub
-		return bedAllocationRepository.findAll();
+		 List<BedAllocation> entityList= bedAllocationRepository.findAll();
+		 List<BedAllocationBean> beanList=new ArrayList<>();
+		 entityToBean(entityList,beanList);
+		 return beanList;
+	}
+
+	private void entityToBean(List<BedAllocation> entitylist, List<BedAllocationBean> beanList) {
+		// TODO Auto-generated method stub
+		for(BedAllocation bedAllocation: entitylist)
+		{
+			BedAllocationBean bedAllocationBean=new BedAllocationBean();
+			bedAllocationBean.setId(bedAllocation.getId());
+			bedAllocationBean.setEndDate(bedAllocation.getEndDate());
+			bedAllocationBean.setNoOfDays(bedAllocation.getNoOfDays());
+			bedAllocationBean.setStartDate(bedAllocation.getStartDate());
+			bedAllocationBean.setPatientId(bedAllocation.getPatientId());
+			bedAllocationBean.setRoomtypeId(bedAllocation.getRoomtypeId());
+			bedAllocationBean.setStatus(bedAllocation.getStatus());
+			beanList.add(bedAllocationBean);
+		}
 	}
 
 	@Override
-	public void delete(long id) {
+	public void delete(int id) {
 		// TODO Auto-generated method stub
 		bedAllocationRepository.deleteById(id);
 		
 	}
 
 	@Override
-	public void update(BedAllocation bedAllocation) {
+	public void update(BedAllocationBean bedAllocationBean) {
 		// TODO Auto-generated method stub
-		BedAllocation bedAllocation1= bedAllocationRepository.getReferenceById(bedAllocation.getBedNo());
-		bedAllocation1.setBedNo(bedAllocation.getBedNo());
-		bedAllocation1.setStart_date(bedAllocation.getStart_date());
-		bedAllocation1.setEnd_date(bedAllocation.getEnd_date());
-		bedAllocation1.setNo_of_days(bedAllocation.getNo_of_days());
-		bedAllocation1.setPatient_id(bedAllocation.getPatient_id());
-		bedAllocation1.setRoomtype_id(bedAllocation.getRoomtype_id());
-		bedAllocation1.setStatus(bedAllocation.getStatus());
-		bedAllocationRepository.save(bedAllocation1);
+		BedAllocation bedAllocation= bedAllocationRepository.getReferenceById(bedAllocationBean.getId());
+		bedAllocation.setId(bedAllocationBean.getId());
+		bedAllocation.setStartDate(bedAllocationBean.getStartDate());
+		bedAllocation.setEndDate(bedAllocationBean.getEndDate());
+		bedAllocation.setNoOfDays(bedAllocationBean.getNoOfDays());
+		bedAllocation.setPatientId(bedAllocationBean.getPatientId());
+		bedAllocation.setRoomtypeId(bedAllocationBean.getRoomtypeId());
+		bedAllocation.setStatus(bedAllocationBean.getStatus());
+		bedAllocationRepository.save(bedAllocation);
 
 	}
 

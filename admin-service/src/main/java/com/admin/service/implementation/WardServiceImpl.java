@@ -1,7 +1,6 @@
+package com.admin.service.implementation;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,11 +8,13 @@ import org.apache.tomcat.util.http.ConcurrentDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.admin.bean.MedicationBean;
 import com.admin.bean.WardBean;
+import com.admin.entity.Medication;
 import com.admin.entity.Ward;
+import com.admin.exception.RecordNotFoundException;
 import com.admin.repository.WardRepository;
 import com.admin.service.WardService;
-
 
 @Service
 public class WardServiceImpl implements WardService {
@@ -24,94 +25,99 @@ public class WardServiceImpl implements WardService {
 	public void save(WardBean wardBean) {
 
 		Ward ward = new Ward();
-		//PatientBillingServiceImplimentation patient=new PatientBillingServiceImplimentation();
 		BeanToEntity(ward, wardBean);
 
 		wardRepository.save(ward);
 
 	}
+
+	private void BeanToEntity(Ward ward, WardBean wardBean) {
+		ward.setId(wardBean.getId());
+		ward.setName(wardBean.getName());
+		ward.setCapacity(wardBean.getCapacity());
+		ward.setAvailability(wardBean.getAvailability());
+		MedicationBean medicationBean = wardBean.getMedicationId();
+		Medication medication = new Medication();
+		beanToEntity(medicationBean, medication);
+		ward.setMedicationId(medication);
+
+	}
+
+	private void entityToBean(WardBean wardBean, Ward ward) {
+		wardBean.setId(ward.getId());
+		wardBean.setName(ward.getName());
+		wardBean.setCapacity(ward.getCapacity());
+		wardBean.setAvailability(ward.getAvailability());
+		MedicationBean medicationBean = new MedicationBean();
+		Medication medication = ward.getMedicationId();
+		entityToBean(medication, medicationBean);
+		wardBean.setMedicationId(medicationBean);
+
+	}
+
+	public WardBean getById(Long id) {
+		WardBean wardBean = new WardBean();
+
+		Ward ward = wardRepository.findById(id).orElseThrow(()->new RecordNotFoundException("No Record Found with given id"));
+		entityToBean(wardBean, ward);
+
+		return wardBean;
+	}
+
 	@Override
-	public List<PatientBillingBean> getAll() {
-		
-		List<PatientBillingBean> patientBillingBean=new ArrayList<>();
-		//List<PatientBillingEntity> patiBillingEntity=new ArrayList<>();
-	    List<PatientBillingEntity>	patiBillingEntity=patientBillingRepository.findAll();
-        entityToBean(patiBillingEntity,patientBillingBean);
-		return patientBillingBean;
+	public void delete(Long id) {
+		wardRepository.deleteById(id);
+
 	}
+
 	@Override
-	public Optional<PatientBillingEntity> getById( Integer patientBillingId) {
-				
-		PatientBillingBean patientBillingBean=new PatientBillingBean();
-		Optional<PatientBillingEntity> patientEntity=patientBillingRepository.findById(patientBillingId);
-		//entityToBean(patientBillingEntity, patientBillingBean);
-		//int billingId=patientEntity.get().getBillId();
-		boolean billingId =patientBillingRepository.existsById(patientBillingId);
-		if(billingId!=true)
-		{
-			throw new BillingIdNotFoundException("billing id not found");
-		}
-		else
-		{
-			return patientEntity ;
- 
-		}
+	public List<WardBean> getAll() {
+		List<Ward> entityList = wardRepository.findAll();
+		List<WardBean> beanList = new ArrayList<>();
+		entityToBean(entityList, beanList);
+		return beanList;
 	}
+
+	private void entityToBean(List<Ward> entityList, List<WardBean> beanList) {
+		for (Ward ward : entityList) {
+			WardBean wardBean = new WardBean();
+			wardBean.setId(ward.getId());
+			wardBean.setName(ward.getName());
+			wardBean.setCapacity(ward.getCapacity());
+			wardBean.setAvailability(ward.getAvailability());
+			MedicationBean medicationBean = new MedicationBean();
+			Medication medication = ward.getMedicationId();
+			entityToBean(medication, medicationBean);
+			wardBean.setMedicationId(medicationBean);
+			beanList.add(wardBean);
+		}
+
+	}
+
 	@Override
-	public void update(int billingId, String paymentStatus, double paymentAmmount) {
-		Optional<PatientBillingEntity> patientBillingEntity=patientBillingRepository.findById(billingId);
-		int patientBillingId=patientBillingEntity.get().getBillId();
-		//if(patientBillingId.)
+	public void update(WardBean wardBean) {
+		Ward ward = wardRepository.getReferenceById(wardBean.getId());
+		ward.setId(wardBean.getId());
+		ward.setName(wardBean.getName());
+		ward.setCapacity(wardBean.getCapacity());
+		ward.setAvailability(wardBean.getAvailability());
+		Medication medication = ward.getMedicationId();
 		
-		
-	}
-	
+		ward.setMedicationId(medication);
+		wardRepository.save(ward);
 
 
-
-	public void BeanToEntity(PatientBillingEntity patientBillingEntity,PatientBillingBean patientBillingBean) {
-		//Date currentDate = new Date();
-		//LocalDate localDate
-		//patientBillingEntity.setBillId(patientBillingBean.getBillId());
-		patientBillingEntity.setBillingDate(LocalDate.now());
-		patientBillingEntity.setBedAllocationId(patientBillingBean.getBedAllocationId());
-		patientBillingEntity.setPaidAmount(patientBillingBean.getPaidAmount());
-		patientBillingEntity.setDiscount(patientBillingBean.getDiscount());
-		patientBillingEntity.setTotalAmount(patientBillingBean.getTotalAmount());
-		patientBillingEntity.setPaymentStatus(patientBillingBean.getPaymentStatus());
 	}
 
-	public void entityToBean(List<PatientBillingEntity> patientBillingEntity,List<PatientBillingBean> patientBillingBean)
-	{
-		
-		PatientBillingBean patientbean=new PatientBillingBean();
-		for(PatientBillingEntity patientEntity:patientBillingEntity)
-		{
-			patientbean.setBillId(patientEntity.getBillId());
-			patientbean.setBedAllocationId(patientEntity.getBedAllocationId());
-			patientbean.setBillingDate(patientEntity.getBillingDate());
-			patientbean.setPaidAmount(patientEntity.getPaidAmount());
-			patientbean.setDiscount(patientEntity.getDiscount());
-			patientbean.setPaymentStatus(patientEntity.getPaymentStatus());
-			patientBillingBean.add(patientbean);
-			
-		}
+	public void beanToEntity(MedicationBean medicationBean, Medication medication) {
+		medication.setId(medicationBean.getId());
+		medication.setMedicationName(medicationBean.getMedicationName());
+
 	}
-		
-		public void entityToBean(PatientBillingEntity patientBillingEntity,PatientBillingBean patientBillingBean)
-		{
-			
-			PatientBillingBean patientbean=new PatientBillingBean();
-			
-				patientbean.setBillId(patientBillingEntity.getBillId());
-				patientbean.setBedAllocationId(patientBillingEntity.getBedAllocationId());
-				patientbean.setBillingDate(patientBillingEntity.getBillingDate());
-				patientbean.setPaidAmount(patientBillingEntity.getPaidAmount());
-				patientbean.setDiscount(patientBillingEntity.getDiscount());
-				patientbean.setPaymentStatus(patientBillingEntity.getPaymentStatus());
-				
-				
-			
+
+	public void entityToBean(Medication medication, MedicationBean medicationBean) {
+		medicationBean.setId(medication.getId());
+		medicationBean.setMedicationName(medication.getMedicationName());
 	}
-		
+
 }

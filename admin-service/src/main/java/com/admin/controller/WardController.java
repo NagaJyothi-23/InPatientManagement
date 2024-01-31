@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.admin.bean.WardBean;
 import com.admin.entity.Ward;
-import com.admin.exception.RecordNotFoundException;
 import com.admin.service.WardService;
 
 @RestController
@@ -26,42 +26,42 @@ public class WardController {
 	private WardService wardService;
 
 	@PostMapping("/save")
-	public ResponseEntity<Ward> save(@RequestBody Ward ward) {
+	public ResponseEntity<WardBean> save(@RequestBody WardBean wardBean) {
 		System.out.println("coming");
-		wardService.save(ward);
-		ResponseEntity<Ward> responseEntity = new ResponseEntity<>(ward, HttpStatus.CREATED);
+		wardService.save(wardBean);
+		ResponseEntity<WardBean> responseEntity = new ResponseEntity<>(wardBean, HttpStatus.CREATED);
 		return responseEntity;
 
 	}
 
 	@GetMapping("/getById/{id}")
-	public ResponseEntity<Ward> get(@PathVariable Long id) {
-		Ward ward = wardService.get(id);
+	public ResponseEntity<WardBean> get(@PathVariable Long id) {
+		WardBean ward = wardService.getById(id);
 
-		ResponseEntity<Ward> responseEntity = new ResponseEntity<>(ward, HttpStatus.OK);
+		ResponseEntity<WardBean> responseEntity = new ResponseEntity<>(ward, HttpStatus.OK);
 		return responseEntity;
 	}
 
 	@GetMapping("/getAll")
-	public ResponseEntity<List<Ward>> getAll() {
-		List<Ward> ward = wardService.getAll();
+	public ResponseEntity<List<WardBean>> getAll() {
+		List<WardBean> ward =  wardService.getAll();
 
-		return new ResponseEntity<List<Ward>>(ward, HttpStatus.OK);
+		return new ResponseEntity<List<WardBean>>(ward, HttpStatus.OK);
 
 	}
 	@PutMapping
-	public ResponseEntity<Ward> put(@RequestBody Ward ward) throws Exception {
+	public ResponseEntity<WardBean> put(@RequestBody WardBean wardBean) throws Exception {
 
-		Ward ward1 = wardService.get(ward.getId());
-		if (ward1 != null) {
-			ward1.setName(ward.getName());
-			ward1.setCapacity(ward.getCapacity());
-			ward1.setAvailability(ward.getAvailability());
-			ward1.setMedication_id(ward.getMedication_id());
-			wardService.save(ward1);
+		WardBean wardbean1 = wardService.getById(wardBean.getId());
+		if (wardbean1 != null) {
+			wardbean1.setName(wardBean.getName());
+			wardbean1.setCapacity(wardBean.getCapacity());
+			wardbean1.setAvailability(wardBean.getAvailability());
+			wardbean1.setMedicationId(wardBean.getMedicationId());
+			wardService.save(wardBean);
 
 		}
-		ResponseEntity<Ward> responseEntity = new ResponseEntity<>(ward1, HttpStatus.OK);
+		ResponseEntity<WardBean> responseEntity = new ResponseEntity<>(wardbean1, HttpStatus.OK);
 		return responseEntity;
 	}
 
@@ -70,7 +70,7 @@ public class WardController {
 
 	
 	@DeleteMapping("/deleteById/{id}")
-	public ResponseEntity<Ward> delete(@PathVariable Long id) {
+	public ResponseEntity delete(@PathVariable Long id) {
 		wardService.delete(id);
 		ResponseEntity<Ward> responseEntity = new ResponseEntity<>(HttpStatus.OK);
 		return responseEntity;

@@ -7,4 +7,6 @@ import com.patient.billing.service.entity.PatientBillingEntity;
 public interface PatientBillingRepository  extends JpaRepository<PatientBillingEntity, Integer>
 {
 
+
+
 }

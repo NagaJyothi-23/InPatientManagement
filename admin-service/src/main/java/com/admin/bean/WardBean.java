@@ -1,14 +1,11 @@
 package com.admin.bean;
 
-import com.admin.entity.Medication;
-
-
 public class WardBean {
 	private long id;
 	private String name;
 	private int capacity;
 	private int availability;
-	private Medication medication_id;
+	private MedicationBean medicationId;
 	public long getId() {
 		return id;
 	}
@@ -33,19 +30,19 @@ public class WardBean {
 	public void setAvailability(int availability) {
 		this.availability = availability;
 	}
-	public Medication getMedication_id() {
-		return medication_id;
+	public MedicationBean getMedicationId() {
+		return medicationId;
 	}
-	public void setMedication_id(Medication medication_id) {
-		this.medication_id = medication_id;
+	public void setMedicationId(MedicationBean medicationId) {
+		this.medicationId = medicationId;
 	}
-	public WardBean(long id, String name, int capacity, int availability, Medication medication_id) {
+	public WardBean(long id, String name, int capacity, int availability, MedicationBean medicationId) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.capacity = capacity;
 		this.availability = availability;
-		this.medication_id = medication_id;
+		this.medicationId = medicationId;
 	}
 	public WardBean() {
 		super();
@@ -53,8 +50,7 @@ public class WardBean {
 	@Override
 	public String toString() {
 		return "WardBean [id=" + id + ", name=" + name + ", capacity=" + capacity + ", availability=" + availability
-				+ ", medication_id=" + medication_id + "]";
+				+ ", medicationId=" + medicationId + "]";
 	}
-	
-
 }
+	

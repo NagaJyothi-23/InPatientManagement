@@ -1,6 +1,7 @@
 package com.admin.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -8,13 +9,15 @@ import com.admin.bean.WardBean;
 import com.admin.entity.Ward;
 
 public interface WardService {
-	void save(Ward ward);
 
-	Ward get(Long id);
 
-	void delete(long id);
+	WardBean getById(Long id);
 
-	List<Ward> getAll();
+	void delete(Long id);
+
+	List<WardBean> getAll();
+
+	void update(WardBean wardBean);
 
 	void save(WardBean wardBean);
 

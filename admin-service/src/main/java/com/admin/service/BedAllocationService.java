@@ -2,13 +2,13 @@ package com.admin.service;
 
 import java.util.List;
 
-import com.admin.entity.BedAllocation;
+import com.admin.bean.BedAllocationBean;
 
 public interface BedAllocationService {
 
-	BedAllocation save(BedAllocation bedAllocation);
-	BedAllocation getById(long id);
-	List<BedAllocation> getAll();
-	void update(BedAllocation bedAllocation);
-	void delete(long id);
+	BedAllocationBean save(BedAllocationBean bedAllocationBean);
+	BedAllocationBean getById(int id);
+	List<BedAllocationBean> getAll();
+	void delete(int id);
+	void update(BedAllocationBean bedAllocationBean);
 }
