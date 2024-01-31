@@ -55,10 +55,10 @@ public class PatientBillingController
 		   return new ResponseEntity<List<PatientBillingBean>>(patientBillingBean,HttpStatus.OK) ;
 	   }
 	   @GetMapping(path="/fetch/{id}")
-	   public ResponseEntity<PatientBillingEntity> getById(@PathVariable(value = "id") Integer billingId)
+	   public ResponseEntity<PatientBillingBean> getById(@PathVariable(value = "id") Integer billingId)
 	   {
-		   Optional<PatientBillingEntity> patientBillingEntity=patientBillingService.getById(billingId);
-		   return new ResponseEntity<PatientBillingEntity>(patientBillingEntity.get(),HttpStatus.OK) ;
+			PatientBillingBean patientBillingEntity=patientBillingService.getById(billingId);
+		   return new ResponseEntity<PatientBillingBean>(patientBillingEntity,HttpStatus.OK) ;
 	   }
 	   
 //	   @PutMapping(path="update{/id}/payedAmount")

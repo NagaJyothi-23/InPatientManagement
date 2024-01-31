@@ -55,14 +55,14 @@ public class MedicationController {
 		return responseEntity;
 	}
 	@PutMapping
-	public ResponseEntity<Medication> put(@RequestBody Medication medication) throws Exception {
+	public ResponseEntity<MedicationBean> put(@RequestBody Medication medication) throws Exception {
 
-		Medication medication1 = medicationService.getById(medication.getId());
+		MedicationBean medication1 = medicationService.getById(medication.getId());
 		if (medication1 != null) {
 			medication1.setMedicationName(medication.getMedicationName());
 			medicationService.save(medication1);
 		}
-		ResponseEntity<Medication> responseEntity = new ResponseEntity<>(medication1, HttpStatus.OK);
+		ResponseEntity<MedicationBean> responseEntity = new ResponseEntity<>(medication1, HttpStatus.OK);
 		return responseEntity;
 	}
 }
