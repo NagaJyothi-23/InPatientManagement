@@ -1,7 +1,8 @@
 package com.admin.bean;
 
-<<<<<<< HEAD
+
 import java.sql.Date;
+
 
 import com.admin.entity.RoomTypeEntity;
 
@@ -98,11 +99,4 @@ public class BedAllocationBean {
 				+ roomtypeId + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
 	}
 	
-	
-	
-	
-=======
-public class BedAllocationBean {
-
->>>>>>> 79c293fadc13615a128d27da3dc660edec26f3f7
 }

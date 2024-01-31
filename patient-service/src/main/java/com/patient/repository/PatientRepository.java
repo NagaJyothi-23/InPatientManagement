@@ -8,7 +8,7 @@ import com.patient.entity.PatientEntity;
 
 public interface PatientRepository extends JpaRepository<PatientEntity, Integer>{
 
-	boolean existsById(boolean patientId);
+
 
 
 }
