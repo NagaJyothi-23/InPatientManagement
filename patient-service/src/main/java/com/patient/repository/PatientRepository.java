@@ -8,6 +8,7 @@ import com.patient.entity.PatientEntity;
 
 public interface PatientRepository extends JpaRepository<PatientEntity, Integer>{
 
-	// Optional<PatientRegistrationEntity> findById(Long id);
+
+
 
 }
