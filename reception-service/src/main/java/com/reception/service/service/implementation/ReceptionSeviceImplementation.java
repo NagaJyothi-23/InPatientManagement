@@ -25,7 +25,7 @@ public class ReceptionSeviceImplementation implements ReceptionService
 
 	@Override
 	public PatitentBean patitentDetails(int id) {
-		String url = "http://localhost:8080/registration/id";
+		String url = "http://localhost:8080/registration/"+id;
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);

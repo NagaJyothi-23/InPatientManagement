@@ -2,6 +2,7 @@ package com.admin.bean;
 
 import java.sql.Date;
 
+
 import com.admin.entity.RoomTypeEntity;
 
 import jakarta.persistence.Column;
@@ -96,7 +97,11 @@ public class BedAllocationBean {
 		return "BedAllocationBean [id=" + id + ", patientId=" + patientId + ", noOfDays=" + noOfDays + ", roomtypeId="
 				+ roomtypeId + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
 	}
+
 }
 	
 	
+
+	
+
 
