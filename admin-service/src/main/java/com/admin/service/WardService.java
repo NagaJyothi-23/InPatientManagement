@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.admin.bean.WardBean;
 import com.admin.entity.Ward;
 
 public interface WardService {
@@ -14,5 +15,7 @@ public interface WardService {
 	void delete(long id);
 
 	List<Ward> getAll();
+
+	void save(WardBean wardBean);
 
 }

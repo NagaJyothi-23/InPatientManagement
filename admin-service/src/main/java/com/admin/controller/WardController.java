@@ -52,9 +52,9 @@ public class WardController {
 	@PutMapping
 	public ResponseEntity<Ward> put(@RequestBody Ward ward) throws Exception {
 
-		Ward ward1 = wardService.get(ward.getWard_id());
+		Ward ward1 = wardService.get(ward.getId());
 		if (ward1 != null) {
-			ward1.setWard_name(ward.getWard_name());
+			ward1.setName(ward.getName());
 			ward1.setCapacity(ward.getCapacity());
 			ward1.setAvailability(ward.getAvailability());
 			ward1.setMedication_id(ward.getMedication_id());
