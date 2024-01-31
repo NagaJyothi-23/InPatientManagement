@@ -99,4 +99,11 @@ public class BedAllocationBean {
 				+ roomtypeId + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
 	}
 	
+
+	
+	
+	
+
 }
+}
+
