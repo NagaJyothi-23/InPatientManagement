@@ -100,8 +100,18 @@ public class BedAllocationBean {
 
 }
 	
+<<<<<<< HEAD
 	
 
 	
 
+=======
+
+	
+	
+	
+
+}
+}
+>>>>>>> 3dc9698bd5babd84f512126d8ee332ff7e9907cf
 
