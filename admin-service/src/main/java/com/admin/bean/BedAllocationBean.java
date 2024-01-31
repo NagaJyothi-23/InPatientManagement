@@ -1,6 +1,5 @@
 package com.admin.bean;
 
-
 import java.sql.Date;
 
 
@@ -98,7 +97,15 @@ public class BedAllocationBean {
 		return "BedAllocationBean [id=" + id + ", patientId=" + patientId + ", noOfDays=" + noOfDays + ", roomtypeId="
 				+ roomtypeId + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
 	}
+
+}
 	
+<<<<<<< HEAD
+	
+
+	
+
+=======
 
 	
 	
@@ -106,4 +113,5 @@ public class BedAllocationBean {
 
 }
 }
+>>>>>>> 3dc9698bd5babd84f512126d8ee332ff7e9907cf
 
