@@ -25,13 +25,13 @@ public class WardServiceImpl implements WardService {
 	public void save(WardBean wardBean) {
 
 		Ward ward = new Ward();
-		BeanToEntity(ward, wardBean);
+		beanToEntity(ward, wardBean);
 
 		wardRepository.save(ward);
 
 	}
 
-	private void BeanToEntity(Ward ward, WardBean wardBean) {
+	private void beanToEntity(Ward ward, WardBean wardBean) {
 		ward.setId(wardBean.getId());
 		ward.setName(wardBean.getName());
 		ward.setCapacity(wardBean.getCapacity());

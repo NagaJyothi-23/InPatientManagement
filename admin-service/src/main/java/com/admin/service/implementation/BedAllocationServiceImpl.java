@@ -7,7 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.admin.bean.BedAllocationBean;
+import com.admin.bean.MedicationBean;
+import com.admin.bean.RoomTypeBean;
+import com.admin.bean.WardBean;
 import com.admin.entity.BedAllocation;
+import com.admin.entity.Medication;
+import com.admin.entity.RoomTypeEntity;
+import com.admin.entity.Ward;
 import com.admin.exception.RecordNotFoundException;
 import com.admin.repository.BedAllocationRepository;
 import com.admin.service.BedAllocationService;
@@ -29,7 +35,10 @@ public class BedAllocationServiceImpl implements BedAllocationService{
 	private void beanToEntity(BedAllocationBean bedAllocationBean, BedAllocation bedAllocation) {
 		// TODO Auto-generated method stub
 		bedAllocation.setId(bedAllocationBean.getId());
-		bedAllocation.setRoomtypeId(bedAllocationBean.getRoomtypeId());
+		RoomTypeBean roomTypeBean=bedAllocationBean.getRoomTypeId();
+		RoomTypeEntity roomTypeEntity=new RoomTypeEntity();
+		beanToEntity(roomTypeEntity,roomTypeBean);
+		bedAllocation.setRoomTypeId(roomTypeEntity);
 		bedAllocation.setPatientId(bedAllocationBean.getPatientId());
 		bedAllocation.setNoOfDays(bedAllocationBean.getNoOfDays());
 		bedAllocation.setStartDate(bedAllocationBean.getStartDate());
@@ -53,7 +62,9 @@ public class BedAllocationServiceImpl implements BedAllocationService{
 		bedAllocationBean.setNoOfDays(bedAllocation.getNoOfDays());
 		bedAllocationBean.setStartDate(bedAllocation.getStartDate());
 		bedAllocationBean.setPatientId(bedAllocation.getPatientId());
-		bedAllocationBean.setRoomtypeId(bedAllocation.getRoomtypeId());
+		RoomTypeEntity roomTypeEntity=bedAllocation.getRoomTypeId();
+		RoomTypeBean roomTypeBean=new RoomTypeBean(); 
+		entityToBean(roomTypeEntity,roomTypeBean);
 		bedAllocationBean.setStatus(bedAllocation.getStatus());
 	}
 
@@ -76,7 +87,10 @@ public class BedAllocationServiceImpl implements BedAllocationService{
 			bedAllocationBean.setNoOfDays(bedAllocation.getNoOfDays());
 			bedAllocationBean.setStartDate(bedAllocation.getStartDate());
 			bedAllocationBean.setPatientId(bedAllocation.getPatientId());
-			bedAllocationBean.setRoomtypeId(bedAllocation.getRoomtypeId());
+			RoomTypeBean roomTypeBean=new RoomTypeBean();
+			RoomTypeEntity roomEntity=bedAllocation.getRoomTypeId();
+			entityToBean(roomEntity, roomTypeBean);
+			bedAllocationBean.setRoomTypeId(roomTypeBean);
 			bedAllocationBean.setStatus(bedAllocation.getStatus());
 			beanList.add(bedAllocationBean);
 		}
@@ -98,10 +112,72 @@ public class BedAllocationServiceImpl implements BedAllocationService{
 		bedAllocation.setEndDate(bedAllocationBean.getEndDate());
 		bedAllocation.setNoOfDays(bedAllocationBean.getNoOfDays());
 		bedAllocation.setPatientId(bedAllocationBean.getPatientId());
-		bedAllocation.setRoomtypeId(bedAllocationBean.getRoomtypeId());
+		RoomTypeEntity roomTypeEntity=new RoomTypeEntity();
+		RoomTypeBean roomTypeBean=bedAllocationBean.getRoomTypeId();
+		beanToEntity(roomTypeEntity,roomTypeBean);
+		bedAllocation.setRoomTypeId(roomTypeEntity);
 		bedAllocation.setStatus(bedAllocationBean.getStatus());
 		bedAllocationRepository.save(bedAllocation);
 
 	}
+
+	public void beanToEntity(RoomTypeEntity roomTypeEntity, RoomTypeBean roomTypeBean) {
+		roomTypeEntity.setId(roomTypeBean.getId());
+		roomTypeEntity.setName(roomTypeBean.getName());
+		roomTypeEntity.setRoomPrice(roomTypeBean.getRoomPrice());
+		roomTypeEntity.setRoomSharing(roomTypeBean.getRoomSharing());
+		WardBean wardBean=roomTypeBean.getWardId();
+		Ward entity=new Ward();
+		beanToEntity(entity,wardBean);
+		roomTypeEntity.setWardId(entity);
+	}
+
+	private void beanToEntity(Ward ward, WardBean wardBean) {
+		ward.setId(wardBean.getId());
+		ward.setName(wardBean.getName());
+		ward.setCapacity(wardBean.getCapacity());
+		ward.setAvailability(wardBean.getAvailability());
+		MedicationBean medicationBean = wardBean.getMedicationId();
+		Medication medication = new Medication();
+		beanToEntity(medicationBean, medication);
+		ward.setMedicationId(medication);
+
+	}
+	public void beanToEntity(MedicationBean medicationBean, Medication medication) {
+		medication.setId(medicationBean.getId());
+		medication.setMedicationName(medicationBean.getMedicationName());
+
+	}
+	
+	public void entityToBean(RoomTypeEntity roomTypeEntity, RoomTypeBean roomTypeBean) {
+
+		RoomTypeBean roomBean=new RoomTypeBean();
+		roomBean.setId(roomTypeEntity.getId());
+		roomBean.setName(roomTypeEntity.getName());
+		roomBean.setRoomPrice(roomTypeEntity.getRoomPrice());
+		roomBean.setRoomSharing(roomTypeEntity.getRoomSharing());
+		Ward entity=roomTypeEntity.getWardId();
+		WardBean wardBean=new WardBean();
+		entityToBean(wardBean, entity);
+		roomBean.setWardId(wardBean);
+
+	}
+	private void entityToBean(WardBean wardBean, Ward ward) {
+		wardBean.setId(ward.getId());
+		wardBean.setName(ward.getName());
+		wardBean.setCapacity(ward.getCapacity());
+		wardBean.setAvailability(ward.getAvailability());
+		MedicationBean medicationBean = new MedicationBean();
+		Medication medication = ward.getMedicationId();
+		entityToBean(medication, medicationBean);
+		wardBean.setMedicationId(medicationBean);
+
+	}
+	public void entityToBean(Medication medication, MedicationBean medicationBean) {
+		medicationBean.setId(medication.getId());
+		medicationBean.setMedicationName(medication.getMedicationName());
+	}
+
+
 
 }

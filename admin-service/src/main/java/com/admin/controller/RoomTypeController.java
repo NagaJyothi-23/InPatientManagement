@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.admin.bean.RoomTypeBean;
 import com.admin.entity.Medication;
 import com.admin.entity.RoomTypeEntity;
 import com.admin.repository.RoomTypeRepository;
@@ -26,21 +27,23 @@ public class RoomTypeController {
 	@Autowired
 	RoomTypeRepository roomTypeRepository;
 	@PostMapping(path = "/save")
-	public ResponseEntity<RoomTypeEntity> insert(@RequestBody RoomTypeEntity roomType){
-		roomTypeService.save(roomType);
-		ResponseEntity<RoomTypeEntity> entity=new ResponseEntity<>(roomType,HttpStatus.CREATED);
+	public ResponseEntity<RoomTypeBean> save(@RequestBody RoomTypeBean roomTypeBean){
+		roomTypeService.save(roomTypeBean);
+		ResponseEntity<RoomTypeBean> entity=new ResponseEntity<>(roomTypeBean,HttpStatus.CREATED);
 		System.out.println("inserted");
 		return entity;
+		
+		
 	}
 	@GetMapping(path ="/getAll")
-	public ResponseEntity<List<RoomTypeEntity>> getAll(){
-		List<RoomTypeEntity> list=roomTypeService.getAll();
-		return new ResponseEntity<List<RoomTypeEntity>>(list,HttpStatus.OK);
+	public ResponseEntity<List<RoomTypeBean>> getAll(){
+		List<RoomTypeBean> list=roomTypeService.getAll();
+		return new ResponseEntity<List<RoomTypeBean>>(list,HttpStatus.OK);
 	}
 	@GetMapping(path = "/getById/{id}")
-	public ResponseEntity<RoomTypeEntity> getById(@PathVariable Long id){
-		RoomTypeEntity roombyid = roomTypeService.getById(id);
-		return new ResponseEntity<RoomTypeEntity>(roombyid,HttpStatus.OK);	
+	public ResponseEntity<RoomTypeBean> getById(@PathVariable Long id){
+		RoomTypeBean roombyid = roomTypeService.getById(id);
+		return new ResponseEntity<RoomTypeBean>(roombyid,HttpStatus.OK);	
 	}
 	@DeleteMapping(path = "/delete/{id}")
 	public ResponseEntity<RoomTypeEntity> delete(@PathVariable Long id){
@@ -48,23 +51,19 @@ public class RoomTypeController {
 		return new ResponseEntity<RoomTypeEntity>(HttpStatus.OK);
 		
 	}
-//	@PutMapping(path = "/update")
-//	public ResponseEntity<RoomType> update(@PathVariable Long id){
-//		RoomroomTypeService.update(id);
-//	}
-@PutMapping
-public ResponseEntity<RoomTypeEntity> put(@RequestBody RoomTypeEntity roomTypeEntity) throws Exception {
+@PutMapping(path = "/update")
+public ResponseEntity<RoomTypeBean> put(@RequestBody RoomTypeBean roomTypeBean) throws Exception {
 
-	RoomTypeEntity roomTypeEntity1 = roomTypeService.getById(roomTypeEntity.getRoomType_id());
-	if ( roomTypeEntity1!= null) {
-		roomTypeEntity1.setRoomSharing(roomTypeEntity.getRoomSharing());
-		roomTypeEntity1.setRoomPrice(roomTypeEntity.getRoomPrice());
-		roomTypeEntity1.setRoomType_name(roomTypeEntity.getRoomType_name());
+	RoomTypeBean roomBean= roomTypeService.getById(roomTypeBean.getId());
+	if (roomBean != null) {
+		roomBean.setRoomSharing(roomTypeBean.getRoomSharing());
+		roomBean.setRoomPrice(roomTypeBean.getRoomPrice());
+		roomBean.setName(roomTypeBean.getName());
+		roomBean.setWardId(roomTypeBean.getWardId());
 
-
-		roomTypeService.save(roomTypeEntity1);
+		roomTypeService.save(roomBean);
 	}
-	ResponseEntity<RoomTypeEntity> responseEntity = new ResponseEntity<>(roomTypeEntity1, HttpStatus.OK);
+	ResponseEntity<RoomTypeBean> responseEntity = new ResponseEntity<>(roomBean, HttpStatus.OK);
 	return responseEntity;
 }
 }
