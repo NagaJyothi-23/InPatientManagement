@@ -13,4 +13,10 @@ public class PatientBillingExceptionHandler {
 		//log.error("ResourceNotFoundException-" + exception.getMessage(), exception);
 		return new ResponseEntity<>(billingId.getMessage(), HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler
+	public ResponseEntity<String> billingdetails(BillingDetailsNotFoundException billingDetails) {
+		//log.error("ResourceNotFoundException-" + exception.getMessage(), exception);
+		return new ResponseEntity<>(billingDetails.getMessage(), HttpStatus.NOT_FOUND);
+	}
 }
