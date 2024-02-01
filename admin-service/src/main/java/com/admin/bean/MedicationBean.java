@@ -1,0 +1,37 @@
+package com.admin.bean;
+
+public class MedicationBean {
+
+	private long id;
+	private String medicationName;
+	
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public String getMedicationName() {
+		return medicationName;
+	}
+	public void setMedicationName(String medicationName) {
+		this.medicationName = medicationName;
+	}
+	
+	public MedicationBean(long id, String medicationName) {
+		super();
+		this.id = id;
+		this.medicationName = medicationName;
+	}
+	
+	public MedicationBean() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "MedicationBean [id=" + id + ", medicationName=" + medicationName + "]";
+	}
+	
+	
+}

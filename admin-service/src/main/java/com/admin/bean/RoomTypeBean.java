@@ -1,7 +1,5 @@
 package com.admin.bean;
 
-import com.admin.entity.Ward;
-
 public class RoomTypeBean {
 	private long id;
 	private String name;
@@ -45,15 +43,15 @@ public class RoomTypeBean {
 		this.roomPrice = roomPrice;
 	}
 
-	public Wardbean getWardId() {
+	public WardBean getWardId() {
 		return wardId;
 	}
 
-	public void setWardId(Wardbean wardId) {
+	public void setWardId(WardBean wardId) {
 		this.wardId = wardId;
 	}
 
-	public RoomTypeBean(long id, String name, int roomSharing, double roomPrice, Wardbean wardId) {
+	public RoomTypeBean(long id, String name, int roomSharing, double roomPrice, WardBean wardId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -67,5 +65,5 @@ public class RoomTypeBean {
 		return "RoomTypeBean [id=" + id + ", name=" + name + ", roomSharing=" + roomSharing + ", roomPrice=" + roomPrice
 				+ ", wardId=" + wardId + "]";
 	}
-	
+
 }

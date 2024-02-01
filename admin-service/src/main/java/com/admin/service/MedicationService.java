@@ -2,11 +2,12 @@ package com.admin.service;
 
 import java.util.List;
 
+import com.admin.bean.MedicationBean;
 import com.admin.entity.Medication;
 
 public interface MedicationService {
-    Medication save(Medication medication);
-    Medication getById(long id);
-    List<Medication> getAll();
+	MedicationBean save(MedicationBean medication);
+	MedicationBean getById(long id);
+    List<MedicationBean> getAll();
     void delete(long id);
 }
