@@ -11,7 +11,7 @@ import com.patient.billing.service.entity.PatientBillingEntity;
 public interface PatientBillingService {
 	public void save(PatientBillingBean patientBillingBean);
 	public List<PatientBillingBean> getAll();
-	public Optional<PatientBillingEntity> getById(Integer patientBillingId);
+	public PatientBillingBean getById(Integer patientBillingId);
     public PatientBillingEntity update(Integer billingId,Double paymentAmmount);
 	BedAllocationBean getDetails(int bedId);
 	

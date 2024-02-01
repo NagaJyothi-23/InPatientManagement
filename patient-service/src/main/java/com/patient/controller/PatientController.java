@@ -1,6 +1,7 @@
 package com.patient.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,40 +14,48 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.patient.bean.PatientBean;
 import com.patient.entity.PatientEntity;
 import com.patient.service.PatientService;
 
 
 @RestController
-//@RequestMapping
 public class PatientController {
 @Autowired
 private PatientService patientService;
 
 @PostMapping("/save")
-	public ResponseEntity<PatientEntity> save(@RequestBody PatientEntity patientEntity) {
+	public ResponseEntity<PatientBean> save(@RequestBody PatientBean patientBean) {
 	
-	patientService.save(patientEntity);
-	ResponseEntity<PatientEntity> responseEntity = new ResponseEntity<>(patientEntity,
+	patientService.save(patientBean);
+	ResponseEntity<PatientBean> responseEntity = new ResponseEntity<>(patientBean,
 			HttpStatus.OK);
 	return responseEntity;
 }
 
 @GetMapping
-public List<PatientEntity> getAll() {
-  return patientService.getDetails();
-}
+public List<PatientBean> getAll() {
+	
+	 List<PatientBean> patientBean=patientService.getAll();
+     return (List<PatientBean>) new ResponseEntity<List<PatientBean>>(patientBean,HttpStatus.OK) ;
+     
+	}
 
 @GetMapping("/{id}")
 public ResponseEntity<PatientEntity> getPatientById(@PathVariable Integer id) {
-  return ResponseEntity.ok(patientService.getPatientById(id));
+
+	   Optional<PatientEntity> patientEntity=patientService.getPatientById(id);
+	   return new ResponseEntity<PatientEntity>(patientEntity.get(),HttpStatus.OK) ;
+	   
 }
+  
 
 @DeleteMapping("/delete/{id}")
 public ResponseEntity<Void> deletePatient(@PathVariable Integer id) {
 	patientService.delete(id);
     return ResponseEntity.noContent().build();
 }
+
 
 }
 

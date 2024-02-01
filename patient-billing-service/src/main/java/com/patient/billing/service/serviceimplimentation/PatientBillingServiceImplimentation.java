@@ -33,7 +33,7 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 
 	@Override
 	public BedAllocationBean getDetails(int bedId) {
-		String url = "http://localhost:8080/bedAllocation/getById/"+bedId;
+		String url = "http://localhost:8080/bedAllocation/getById/1";
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -41,11 +41,33 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 
 		ResponseEntity<BedAllocationBean> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
 				BedAllocationBean.class);
-		BedAllocationBean bedAllocation = responseEntity.getBody();
 		
+		if (responseEntity.getStatusCode().is2xxSuccessful()) {
+	        // Retrieve the response body containing the BedAllocationBean
+	        BedAllocationBean bedAllocation = responseEntity.getBody();
+
+	        // Check for null before returning
+	        if (bedAllocation != null) {
+	            return bedAllocation;
+	        } else {
+	            // Handle the case where the response body is null
+	            // You can throw an exception, log a message, or return a default value
+	            // For example, throw new RuntimeException("Received null response for bedId: " + bedId);
+	        }
+	    }
+		else {
+	    	System.out.println("exception occured");
+	    	return null;
+	        // Handle non-successful HTTP status codes if needed
+	        // For example, log an error message or throw an exception
+	        // throw new RuntimeException("Failed to retrieve data. Status code: " + responseEntity.getStatusCodeValue());
+	    }
+		//BedAllocationBean bedAllocation = responseEntity.getBody();		
 		
-		return bedAllocation;
+		//return bedAllocation;
+		return null;
 	}
+	
 
 	@Override
 	public void save(PatientBillingBean patientBillingBean) {
@@ -67,19 +89,18 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 	}
 
 	@Override
-	public Optional<PatientBillingEntity> getById(Integer patientBillingId) {
+	public PatientBillingBean getById(Integer patientBillingId) {
 
 		PatientBillingBean patientBillingBean = new PatientBillingBean();
-		Optional<PatientBillingEntity> patientEntity = patientBillingRepository.findById(patientBillingId);
-		// entityToBean(patientBillingEntity, patientBillingBean);
-		// int billingId=patientEntity.get().getBillId();
-		boolean billingId = patientBillingRepository.existsById(patientBillingId);
-		if (billingId != true) {
-			throw new BillingIdNotFoundException("billing id not found");
-		} else {
-			return patientEntity;
-
+		if(patientBillingRepository.existsById(patientBillingId)) {
+			Optional<PatientBillingEntity> patientEntity = patientBillingRepository.findById(patientBillingId);
+		    entityToBean(patientEntity.get(), patientBillingBean);
 		}
+		
+		else {
+			throw new BillingIdNotFoundException("billing id not found");
+		}
+		return patientBillingBean;
 	}
 
 	@Override
@@ -143,14 +164,15 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 
 	public void entityToBean(PatientBillingEntity patientBillingEntity, PatientBillingBean patientBillingBean) {
 
-		PatientBillingBean patientbean = new PatientBillingBean();
+		//PatientBillingBean patientbean = new PatientBillingBean();
 
-		patientbean.setBillId(patientBillingEntity.getBillId());
-		 patientbean.setBedAllocationId(patientBillingEntity.getBedAllocationId());
-		patientbean.setBillingDate(patientBillingEntity.getBillingDate());
-		patientbean.setPaidAmount(patientBillingEntity.getPaidAmount());
-		patientbean.setDiscount(patientBillingEntity.getDiscount());
-		patientbean.setPaymentStatus(patientBillingEntity.getPaymentStatus());
+		patientBillingBean.setBillId(patientBillingEntity.getBillId());
+		patientBillingBean.setBedAllocationId(patientBillingEntity.getBedAllocationId());
+		patientBillingBean.setBillingDate(patientBillingEntity.getBillingDate());
+		patientBillingBean.setPaidAmount(patientBillingEntity.getPaidAmount());
+		patientBillingBean.setDiscount(patientBillingEntity.getDiscount());
+		patientBillingBean.setPaymentStatus(patientBillingEntity.getPaymentStatus());
+		patientBillingBean.setTotalAmount(patientBillingEntity.getTotalAmount());
 
 	}
 

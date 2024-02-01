@@ -59,12 +59,12 @@ public class BedAllocationController {
 
 		BedAllocationBean bedAllocation1 = bedAllocationService.getById(bedAllocationBean.getId());
 		if (bedAllocation1 != null) {
-			bedAllocation1.setRoomtypeId(bedAllocationBean.getRoomtypeId());
+			
 			bedAllocation1.setId(bedAllocationBean.getId());
 			bedAllocation1.setStartDate(bedAllocationBean.getStartDate());
 			bedAllocation1.setEndDate(bedAllocationBean.getEndDate());
 			bedAllocation1.setStatus(bedAllocationBean.getStatus());
-
+			bedAllocation1.setRoomTypeId(bedAllocationBean.getRoomTypeId());
 			bedAllocationService.save(bedAllocation1);
 		}
 		ResponseEntity<BedAllocationBean> responseEntity = new ResponseEntity<>(bedAllocation1, HttpStatus.OK);

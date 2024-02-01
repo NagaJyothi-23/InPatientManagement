@@ -24,8 +24,8 @@ public class BedAllocation {
 	@Column(name = "no_of_days")
 	private int noOfDays;
 	@ManyToOne
-	@JoinColumn(name = "roomtype_id", referencedColumnName = "roomType_id")
-	private RoomTypeEntity roomtypeId;
+	@JoinColumn(name = "roomtype_id", referencedColumnName = "roomTypeId")
+	private RoomTypeEntity roomTypeId;
 	@Column(name = "start_date")
 	private Date startDate;
 	@Column(name = "end_date")
@@ -37,13 +37,13 @@ public class BedAllocation {
 
 	}
 
-	public BedAllocation(int id, int patientId, int noOfDays, RoomTypeEntity roomtypeId, Date startDate, Date endDate,
+	public BedAllocation(int id, int patientId, int noOfDays, RoomTypeEntity roomTypeId, Date startDate, Date endDate,
 			String status) {
 		super();
 		this.id = id;
 		this.patientId = patientId;
 		this.noOfDays = noOfDays;
-		this.roomtypeId = roomtypeId;
+		this.roomTypeId = roomTypeId;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.status = status;
@@ -73,12 +73,12 @@ public class BedAllocation {
 		this.noOfDays = noOfDays;
 	}
 
-	public RoomTypeEntity getRoomtypeId() {
-		return roomtypeId;
+	public RoomTypeEntity getRoomTypeId() {
+		return roomTypeId;
 	}
 
-	public void setRoomtypeId(RoomTypeEntity roomtypeId) {
-		this.roomtypeId = roomtypeId;
+	public void setRoomTypeId(RoomTypeEntity roomTypeId) {
+		this.roomTypeId = roomTypeId;
 	}
 
 	public Date getStartDate() {
@@ -107,8 +107,8 @@ public class BedAllocation {
 
 	@Override
 	public String toString() {
-		return "BedAllocation [id=" + id + ", patientId=" + patientId + ", noOfDays=" + noOfDays + ", roomtypeId="
-				+ roomtypeId + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
+		return "BedAllocation [id=" + id + ", patientId=" + patientId + ", noOfDays=" + noOfDays + ", roomTypeId="
+				+ roomTypeId + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
 	}
 
 }
