@@ -2,11 +2,9 @@ package com.patient.billing.service.serviceimplimentation;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.tomcat.util.http.ConcurrentDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,8 +17,8 @@ import org.springframework.web.client.RestTemplate;
 import com.patient.billing.service.bean.BedAllocationBean;
 import com.patient.billing.service.bean.PatientBillingBean;
 import com.patient.billing.service.entity.PatientBillingEntity;
+import com.patient.billing.service.exception.BillingDetailsNotFoundException;
 import com.patient.billing.service.exception.BillingIdNotFoundException;
-import com.patient.billing.service.exception.PatientBillingExceptionHandler;
 import com.patient.billing.service.repository.PatientBillingRepository;
 import com.patient.billing.service.service.PatientBillingService;
 
@@ -33,7 +31,7 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 
 	@Override
 	public BedAllocationBean getDetails(int bedId) {
-		String url = "http://localhost:8080/bedAllocation/getById/1";
+		String url = "http://localhost:8080/bedAllocation/getById/"+bedId;
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -41,31 +39,10 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 
 		ResponseEntity<BedAllocationBean> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
 				BedAllocationBean.class);
-		
-		if (responseEntity.getStatusCode().is2xxSuccessful()) {
-	        // Retrieve the response body containing the BedAllocationBean
 	        BedAllocationBean bedAllocation = responseEntity.getBody();
 
-	        // Check for null before returning
-	        if (bedAllocation != null) {
 	            return bedAllocation;
-	        } else {
-	            // Handle the case where the response body is null
-	            // You can throw an exception, log a message, or return a default value
-	            // For example, throw new RuntimeException("Received null response for bedId: " + bedId);
-	        }
-	    }
-		else {
-	    	System.out.println("exception occured");
-	    	return null;
-	        // Handle non-successful HTTP status codes if needed
-	        // For example, log an error message or throw an exception
-	        // throw new RuntimeException("Failed to retrieve data. Status code: " + responseEntity.getStatusCodeValue());
-	    }
-		//BedAllocationBean bedAllocation = responseEntity.getBody();		
-		
-		//return bedAllocation;
-		return null;
+	        
 	}
 	
 
@@ -84,8 +61,14 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 
 		List<PatientBillingBean> patientBillingBean = new ArrayList<>();
 		List<PatientBillingEntity> patiBillingEntity = patientBillingRepository.findAll();
+		if(patiBillingEntity.isEmpty())
+		{
+			throw new BillingDetailsNotFoundException("Billing details not found");
+		}
+		else{
 		entityToBean(patiBillingEntity, patientBillingBean);
 		return patientBillingBean;
+		}
 	}
 
 	@Override
@@ -138,6 +121,8 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 		// LocalDate localDate
 		// patientBillingEntity.setBillId(patientBillingBean.getBillId());
 		patientBillingEntity.setBillingDate(LocalDate.now());
+//		int k=patientBillingBean.getBedAllocationId().getId();
+//		patientBillingEntity.setBedAllocationId(k);
 		patientBillingEntity.setBedAllocationId(patientBillingBean.getBedAllocationId());
 		patientBillingEntity.setPaidAmount(patientBillingBean.getPaidAmount());
 		patientBillingEntity.setDiscount(patientBillingBean.getDiscount());
@@ -151,7 +136,10 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 		PatientBillingBean patientbean = new PatientBillingBean();
 		for (PatientBillingEntity patientEntity : patientBillingEntity) {
 			patientbean.setBillId(patientEntity.getBillId());
-			 patientbean.setBedAllocationId(patientEntity.getBedAllocationId());
+			patientbean.setBedAllocationId(patientEntity.getBedAllocationId());
+//			int k=patientEntity.getBedAllocationId();
+//			BedAllocationBean bedAllocationBean=getDetails(k);
+//			 patientbean.setBedAllocationId(bedAllocationBean);
 			patientbean.setBillingDate(patientEntity.getBillingDate());
 			patientbean.setPaidAmount(patientEntity.getPaidAmount());
 			patientbean.setDiscount(patientEntity.getDiscount());
@@ -167,6 +155,12 @@ public class PatientBillingServiceImplimentation implements PatientBillingServic
 		//PatientBillingBean patientbean = new PatientBillingBean();
 
 		patientBillingBean.setBillId(patientBillingEntity.getBillId());
+		 
+		 
+//		 int k=patientBillingEntity.getBedAllocationId();
+//			BedAllocationBean bedAllocationBean=getDetails(k);
+//			patientBillingBean.setBedAllocationId(bedAllocationBean);
+		
 		patientBillingBean.setBedAllocationId(patientBillingEntity.getBedAllocationId());
 		patientBillingBean.setBillingDate(patientBillingEntity.getBillingDate());
 		patientBillingBean.setPaidAmount(patientBillingEntity.getPaidAmount());

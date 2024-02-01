@@ -52,7 +52,13 @@ public class PatientBillingController
 	   {
 		   System.out.println("controller");
 		   List<PatientBillingBean> patientBillingBean=patientBillingService.getAll();
+		   try {
 		   return new ResponseEntity<List<PatientBillingBean>>(patientBillingBean,HttpStatus.OK) ;
+		   }
+		   catch (Exception e) {
+			System.out.println(e.getMessage());
+			  return new ResponseEntity<List<PatientBillingBean>>(patientBillingBean,HttpStatus.NOT_FOUND) ;
+		}
 	   }
 	   @GetMapping(path="/fetch/{id}")
 	   public ResponseEntity<PatientBillingBean> getById(@PathVariable(value = "id") Integer billingId)
