@@ -37,7 +37,7 @@ public class PatientBillingController
 		   System.out.println("controller");
 		  BedAllocationBean patientBillingBean= patientBillingService.getDetails(bedId);
 		   return new ResponseEntity<BedAllocationBean>(patientBillingBean,HttpStatus.OK) ;
-	   }
+	    }
 	  
 	   @PostMapping(path="/save")
 	   public ResponseEntity<PatientBillingBean>save(@RequestBody PatientBillingBean patientBillingBean)
