@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.admin.bean.BedAllocationBean;
 import com.admin.bean.PatientBean;
+import com.admin.exception.RecordNotFoundException;
 import com.admin.service.BedAllocationService;
 
 @RestController
@@ -49,65 +50,54 @@ public class BedAllocationController {
 	@GetMapping("/getPatientById/{id}")
 	 public ResponseEntity<PatientBean>details(@PathVariable (value ="id")Integer patientId)
 	   {   log.info("Getting Patient Details by Id");
-		  try {
 			  System.out.println("controller");
 		      PatientBean patientBillingBean= bedAllocationService.getDetails(patientId);
 		      log.info("Getting Patient Details by Id is done");
 		      return new ResponseEntity<PatientBean>(patientBillingBean,HttpStatus.OK) ;
-		  }catch(Exception e)
-		  {
-			  log.error("error handled");
-			  return new ResponseEntity<>( HttpStatus.NOT_FOUND);
-		  }
+		  
 	    }
 	@GetMapping("/getById/{id}")
 	public ResponseEntity<BedAllocationBean> getById(@PathVariable int id) {
 		 log.info("Getting BedAllocation Details by Id");
-		 try {
-		       BedAllocationBean bedAllocation = bedAllocationService.getById(id);
-		       log.info("Getting BedAllocation Details by Id is done");
-		       return new ResponseEntity<BedAllocationBean>(bedAllocation, HttpStatus.OK);
-		    }catch(Exception e) {
-				  log.error("error handled");
-				  return new ResponseEntity<>( HttpStatus.NOT_FOUND);
-			  }
+		  BedAllocationBean bedAllocation = bedAllocationService.getById(id);
+		 log.info("Getting BedAllocation Details by Id is done");
+		 return new ResponseEntity<BedAllocationBean>(bedAllocation, HttpStatus.OK);
+		   
 		 
 	}
 
 	@GetMapping("/getAll")
 	public ResponseEntity<List<BedAllocationBean>> getAll() {
 		log.info("Getting  All BedAllocation Details");
-		try {
+		
 		    List<BedAllocationBean> list = bedAllocationService.getAll();
 		    ResponseEntity<List<BedAllocationBean>> responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
 		    log.info("Getting  All BedAllocation Details is done");
 		    return responseEntity;
-		}catch(Exception e) {
-			  log.error("error handled");
-			  return new ResponseEntity<>( HttpStatus.NOT_FOUND);
-		  }
+		
 	}
 
 	@DeleteMapping("/deleteById/{id}")
-	public ResponseEntity deleteById(@PathVariable int id) {
+	public ResponseEntity<String> deleteById(@PathVariable int id) {
 		log.info("Deleting BedAllocation By Id");
 		try {
+			bedAllocationService.getById(id);
 		  bedAllocationService.delete(id);
-		  ResponseEntity responseEntity = new ResponseEntity<>(HttpStatus.OK);
+		  ResponseEntity responseEntity = new ResponseEntity<>("Deleted Successfully",HttpStatus.OK);
 		  log.info("Deleting BedAllocation By Id is done");
 		return responseEntity;
-		}catch(Exception e) {
+		}catch(RecordNotFoundException e) {
 			  log.error("error handled");
-			  return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+			  return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		  }
 	}
 
-	@PutMapping
-	public ResponseEntity<BedAllocationBean> put(@RequestBody BedAllocationBean bedAllocationBean) throws Exception {
+	@PutMapping("/updateById/{id}")
+	public ResponseEntity<String> put(@RequestBody BedAllocationBean bedAllocationBean,@PathVariable int id) throws Exception {
 
 		log.info("Updating BedAllocation");
 		try {
-		   BedAllocationBean bedAllocation1 = bedAllocationService.getById(bedAllocationBean.getId());
+		   BedAllocationBean bedAllocation1 = bedAllocationService.getById(id);
 		   if (bedAllocation1 != null) {
 			
 			bedAllocation1.setId(bedAllocationBean.getId());
@@ -117,12 +107,12 @@ public class BedAllocationController {
 			bedAllocation1.setRoomTypeId(bedAllocationBean.getRoomTypeId());
 			bedAllocationService.save(bedAllocation1);
 		 }
-		  ResponseEntity<BedAllocationBean> responseEntity = new ResponseEntity<>(bedAllocation1, HttpStatus.OK);
+		  ResponseEntity<String> responseEntity = new ResponseEntity<>("Updated successfully", HttpStatus.OK);
 		  log.info("Updating BedAllocation is done");
 		  return responseEntity;
-		}catch(Exception e) {
+		}catch(RecordNotFoundException e) {
 			  log.error("error handled");
-			  return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+			  return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		  }
 	}
 }

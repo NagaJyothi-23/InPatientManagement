@@ -49,6 +49,11 @@ public class WardController {
 		return new ResponseEntity<List<WardBean>>(ward, HttpStatus.OK);
 
 	}
+	
+	  @GetMapping("/byMedicationId/{medicationId}")
+	    public List<Ward> getWardsByMedicationId(@PathVariable Long medicationId) {
+	        return wardService.findByMedicationId(medicationId);
+	    }
 	@PutMapping
 	public ResponseEntity<WardBean> put(@RequestBody WardBean wardBean) throws Exception {
 
