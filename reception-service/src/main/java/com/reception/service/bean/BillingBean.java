@@ -1,7 +1,8 @@
-package com.patient.billing.service.bean;
+package com.reception.service.bean;
+
 import java.time.LocalDate;
 
-public class PatientBillingBean {
+public class BillingBean {
 	private int billId;
 	private LocalDate billingDate;
 	private int bedAllocationId;
@@ -9,17 +10,6 @@ public class PatientBillingBean {
 	private double discount;
 	private double totalAmount;
 	private String paymentStatus;
-	public PatientBillingBean(int billId, LocalDate billingDate, int bedAllocationId, double paidAmount,
-			double discount, double totalAmount, String paymentStatus) {
-		super();
-		this.billId = billId;
-		this.billingDate = billingDate;
-		this.bedAllocationId = bedAllocationId;
-		this.paidAmount = paidAmount;
-		this.discount = discount;
-		this.totalAmount = totalAmount;
-		this.paymentStatus = paymentStatus;
-	}
 	public int getBillId() {
 		return billId;
 	}
@@ -62,9 +52,20 @@ public class PatientBillingBean {
 	public void setPaymentStatus(String paymentStatus) {
 		this.paymentStatus = paymentStatus;
 	}
-	public PatientBillingBean() {
+	public BillingBean(int billId, LocalDate billingDate, int bedAllocationId, double paidAmount, double discount,
+			double totalAmount, String paymentStatus) {
+		super();
+		this.billId = billId;
+		this.billingDate = billingDate;
+		this.bedAllocationId = bedAllocationId;
+		this.paidAmount = paidAmount;
+		this.discount = discount;
+		this.totalAmount = totalAmount;
+		this.paymentStatus = paymentStatus;
+	}
+	public BillingBean() {
 		super();
 	}
-			
+	
 
 }
