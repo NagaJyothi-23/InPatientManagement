@@ -72,6 +72,23 @@ public class WardController {
 
 			return new ResponseEntity<List<WardBean>>(wardBean, HttpStatus.OK);
 
+
+	}
+	
+	  @GetMapping("/byMedicationId/{medicationId}")
+	    public List<Ward> getWardsByMedicationId(@PathVariable Long medicationId) {
+	        return wardService.findByMedicationId(medicationId);
+	    }
+	@PutMapping
+	public ResponseEntity<WardBean> put(@RequestBody WardBean wardBean) throws Exception {
+
+		WardBean wardbean1 = wardService.getById(wardBean.getId());
+		if (wardbean1 != null) {
+			wardbean1.setName(wardBean.getName());
+			wardbean1.setCapacity(wardBean.getCapacity());
+			wardbean1.setAvailability(wardBean.getAvailability());
+			wardbean1.setMedicationId(wardBean.getMedicationId());
+			wardService.save(wardBean);
 		} catch (Exception e) {
 			log.error("exception started");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

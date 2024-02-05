@@ -134,4 +134,13 @@ public class WardServiceImpl implements WardService {
 		medicationBean.setMedicationName(medication.getMedicationName());
 	}
 
+	@Override
+	public List<Ward> findByMedicationId(Long medicationId) {
+		// TODO Auto-generated method stub
+		return wardRepository.findByMedicationId_Id(medicationId);
+	}
+
+	
+
+
 }
