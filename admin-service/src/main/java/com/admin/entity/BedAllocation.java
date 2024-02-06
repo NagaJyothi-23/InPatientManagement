@@ -24,7 +24,7 @@ public class BedAllocation {
 	@Column(name = "no_of_days")
 	private int noOfDays;
 	@ManyToOne
-	@JoinColumn(name = "roomtype_id", referencedColumnName = "roomTypeId")
+	@JoinColumn(name = "roomTypeId", referencedColumnName = "roomTypeId")
 	private RoomTypeEntity roomTypeId;
 	@Column(name = "start_date")
 	private Date startDate;
@@ -74,6 +74,7 @@ public class BedAllocation {
 		this.noOfDays = noOfDays;
 	}
 
+
 	public RoomTypeEntity getRoomTypeId() {
 		return roomTypeId;
 	}
@@ -112,6 +113,4 @@ public class BedAllocation {
 				+ roomTypeId + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
 	}
 
-	
-   
 }

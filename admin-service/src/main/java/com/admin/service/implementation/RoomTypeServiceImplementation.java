@@ -49,11 +49,11 @@ public class RoomTypeServiceImplementation implements RoomTypeService {
 
 	
 	@Override
-	public RoomTypeEntity update(long id) {
+	public RoomTypeEntity update(long id,RoomTypeBean roomTypeBean) {
 	  RoomTypeEntity roomTypeId= roomTypeRepository.findById(id).orElseThrow(()
 			  ->new RecordNotFoundException("record not found"));
-		RoomTypeBean roomTypeBean=new RoomTypeBean();
-		entityToBean(roomTypeId, roomTypeBean);
+		RoomTypeBean roomTypeBean1=new RoomTypeBean();
+		entityToBean(roomTypeId, roomTypeBean1);
 		return roomTypeId;
 		
 	}
@@ -92,8 +92,8 @@ public class RoomTypeServiceImplementation implements RoomTypeService {
 	}
 	public void entityToBean(List<RoomTypeEntity> listEntity,
 			List<RoomTypeBean> listbean) {
-		RoomTypeBean roomBean=new RoomTypeBean();
 		for(RoomTypeEntity roomEntity:listEntity) {
+			RoomTypeBean roomBean=new RoomTypeBean();
 			roomBean.setId(roomEntity.getId());
 			roomBean.setName(roomEntity.getName());
 			roomBean.setRoomPrice(roomEntity.getRoomPrice());
@@ -106,6 +106,14 @@ public class RoomTypeServiceImplementation implements RoomTypeService {
 	}
 
 	public void entityToBean(RoomTypeEntity roomTypeEntity, RoomTypeBean roomTypeBean) {
+
+		
+		RoomTypeBean roomBean=new RoomTypeBean();
+		roomBean.setId(roomTypeEntity.getId());
+		roomBean.setName(roomTypeEntity.getName());
+		roomBean.setRoomPrice(roomTypeEntity.getRoomPrice());
+		roomBean.setRoomSharing(roomTypeEntity.getRoomSharing());
+
 
 		
 		 roomTypeBean.setId(roomTypeEntity.getId());
@@ -133,8 +141,4 @@ public class RoomTypeServiceImplementation implements RoomTypeService {
 		medicationBean.setId(medication.getId());
 		medicationBean.setMedicationName(medication.getMedicationName());
 	}
-
-
-	
-
 }

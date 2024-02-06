@@ -2,13 +2,6 @@ package com.admin.bean;
 
 import java.sql.Date;
 
-
-import com.admin.entity.RoomTypeEntity;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
 public class BedAllocationBean {
 
 	private int id;
@@ -99,11 +92,6 @@ public class BedAllocationBean {
 	}
 
 }
-	
 
-
-	
-	
-	
 
 
