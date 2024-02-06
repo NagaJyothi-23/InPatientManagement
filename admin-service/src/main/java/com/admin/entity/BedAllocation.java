@@ -32,9 +32,10 @@ public class BedAllocation {
 	private Date endDate;
 	@Column(name = "status")
 	private String status;
-
+	
 	public BedAllocation() {
-
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public BedAllocation(int id, int patientId, int noOfDays, RoomTypeEntity roomTypeId, Date startDate, Date endDate,
@@ -111,7 +112,5 @@ public class BedAllocation {
 		return "BedAllocation [id=" + id + ", patientId=" + patientId + ", noOfDays=" + noOfDays + ", roomTypeId="
 				+ roomTypeId + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
 	}
-
-	
 
 }

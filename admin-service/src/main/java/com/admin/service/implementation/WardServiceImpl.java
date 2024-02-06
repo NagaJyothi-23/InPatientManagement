@@ -58,8 +58,14 @@ public class WardServiceImpl implements WardService {
 	public WardBean getById(Long id) {
 		WardBean wardBean = new WardBean();
 
-		Ward ward = wardRepository.findById(id).orElseThrow(()->new RecordNotFoundException("No Record Found with given id"));
-		entityToBean(wardBean, ward);
+		Ward ward;
+		try {
+			ward = wardRepository.findById(id).orElseThrow(()->new RecordNotFoundException("No Record Found with given id"));
+			entityToBean(wardBean, ward);
+
+		} catch (RecordNotFoundException e) {
+			
+		}
 
 		return wardBean;
 	}
@@ -95,16 +101,24 @@ public class WardServiceImpl implements WardService {
 	}
 
 	@Override
-	public void update(WardBean wardBean) {
-		Ward ward = wardRepository.getReferenceById(wardBean.getId());
-		ward.setId(wardBean.getId());
-		ward.setName(wardBean.getName());
-		ward.setCapacity(wardBean.getCapacity());
-		ward.setAvailability(wardBean.getAvailability());
-		Medication medication = ward.getMedicationId();
+	public void update(WardBean wardBean) throws RecordNotFoundException {
+		Optional<Ward>optional  = wardRepository.findById(wardBean.getId());
+		if(optional.isPresent()) {
+			Ward ward=optional.get();
+			ward.setId(wardBean.getId());
+			ward.setName(wardBean.getName());
+			ward.setCapacity(wardBean.getCapacity());
+			ward.setAvailability(wardBean.getAvailability());
+			Medication medication = ward.getMedicationId();
+			
+			ward.setMedicationId(medication);
+			wardRepository.save(ward);
+			
+		}
+		else {
+			throw new RecordNotFoundException("not found in details");
+		}
 		
-		ward.setMedicationId(medication);
-		wardRepository.save(ward);
 
 
 	}
@@ -119,5 +133,14 @@ public class WardServiceImpl implements WardService {
 		medicationBean.setId(medication.getId());
 		medicationBean.setMedicationName(medication.getMedicationName());
 	}
+
+	@Override
+	public List<Ward> findByMedicationId(Long medicationId) {
+		// TODO Auto-generated method stub
+		return wardRepository.findByMedicationId_Id(medicationId);
+	}
+
+	
+
 
 }

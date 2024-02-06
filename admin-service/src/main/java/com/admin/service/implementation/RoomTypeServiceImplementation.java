@@ -106,16 +106,24 @@ public class RoomTypeServiceImplementation implements RoomTypeService {
 	}
 
 	public void entityToBean(RoomTypeEntity roomTypeEntity, RoomTypeBean roomTypeBean) {
+
 		
 		RoomTypeBean roomBean=new RoomTypeBean();
 		roomBean.setId(roomTypeEntity.getId());
 		roomBean.setName(roomTypeEntity.getName());
 		roomBean.setRoomPrice(roomTypeEntity.getRoomPrice());
 		roomBean.setRoomSharing(roomTypeEntity.getRoomSharing());
+
+
+		
+		 roomTypeBean.setId(roomTypeEntity.getId());
+		 roomTypeBean.setName(roomTypeEntity.getName());
+		 roomTypeBean.setRoomPrice(roomTypeEntity.getRoomPrice());
+		 roomTypeBean.setRoomSharing(roomTypeEntity.getRoomSharing());
 		Ward entity=roomTypeEntity.getWardId();
 		WardBean wardBean=new WardBean();
 		entityToBean(wardBean, entity);
-		roomBean.setWardId(wardBean);
+		 roomTypeBean.setWardId(wardBean);
 
 	}
 	private void entityToBean(WardBean wardBean, Ward ward) {
