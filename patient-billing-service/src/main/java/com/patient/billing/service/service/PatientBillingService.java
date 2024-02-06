@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.patient.billing.service.bean.BedAllocationBean;
+import com.patient.billing.service.bean.PatientBean;
 import com.patient.billing.service.bean.PatientBillingBean;
 import com.patient.billing.service.entity.PatientBillingEntity;
 
@@ -14,5 +15,6 @@ public interface PatientBillingService {
 	public PatientBillingBean getById(Integer patientBillingId);
     public PatientBillingEntity update(Integer billingId,Double paymentAmmount);
 	BedAllocationBean getDetails(int bedId);
+  PatientBean getPatitentDetails(int patitentId);
 	
 }

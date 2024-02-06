@@ -48,9 +48,9 @@ public class BedAllocationController {
 	}
 
 	@DeleteMapping("/deleteById/{id}")
-	public ResponseEntity deleteById(@PathVariable int id) {
+	public ResponseEntity<BedAllocationBean> deleteById(@PathVariable int id) {
 		bedAllocationService.delete(id);
-		ResponseEntity responseEntity = new ResponseEntity<>(HttpStatus.OK);
+		ResponseEntity<BedAllocationBean> responseEntity = new ResponseEntity<>(HttpStatus.OK);
 		return responseEntity;
 	}
 

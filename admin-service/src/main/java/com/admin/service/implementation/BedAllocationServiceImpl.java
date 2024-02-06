@@ -56,7 +56,7 @@ public class BedAllocationServiceImpl implements BedAllocationService{
 	}
 
 	private void entityToBean(BedAllocation bedAllocation, BedAllocationBean bedAllocationBean) {
-		// TODO Auto-generated method stub
+		
 		bedAllocationBean.setId(bedAllocation.getId());
 		bedAllocationBean.setEndDate(bedAllocation.getEndDate());
 		bedAllocationBean.setNoOfDays(bedAllocation.getNoOfDays());

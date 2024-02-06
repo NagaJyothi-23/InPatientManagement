@@ -102,9 +102,10 @@ public class PatientServiceImplementation implements PatientService{
 	public void entityToBean(List<PatientEntity> patientEntity,List<PatientBean> patientBean)
 	{
 		
-		PatientBean patientbean=new PatientBean();
+		
 		for(PatientEntity patientEntity1:patientEntity)
 		{
+			PatientBean patientbean=new PatientBean();
 			patientbean.setPatientId(patientEntity1.getPatientId());
 			patientbean.setFirstName(patientEntity1.getFirstName());
 			patientbean.setLastName(patientEntity1.getLastName());
@@ -120,15 +121,15 @@ public class PatientServiceImplementation implements PatientService{
 		public void entityToBean(PatientEntity patientEntity,PatientBean patientBean)
 		{
 			
-			PatientBean patientbean=new PatientBean();
+			//PatientBean patientbean=new PatientBean();
 			
-			patientbean.setPatientId(patientEntity.getPatientId());
-			patientbean.setFirstName(patientEntity.getFirstName());
-			patientbean.setLastName(patientEntity.getLastName());
-			patientbean.setPatientGender(patientEntity.getPatientGender());
-			patientbean.setPatientAge(patientEntity.getPatientAge());
-			patientbean.setPatientContactNo(patientEntity.getPatientContactNo());
-			patientbean.setPatientAlternteContactNo(patientEntity.getPatientAlternteContactNo());
+			patientBean.setPatientId(patientEntity.getPatientId());
+			patientBean.setFirstName(patientEntity.getFirstName());
+			patientBean.setLastName(patientEntity.getLastName());
+			patientBean.setPatientGender(patientEntity.getPatientGender());
+			patientBean.setPatientAge(patientEntity.getPatientAge());
+			patientBean.setPatientContactNo(patientEntity.getPatientContactNo());
+			patientBean.setPatientAlternteContactNo(patientEntity.getPatientAlternteContactNo());
 				
 			
 	}
