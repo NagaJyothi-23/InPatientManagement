@@ -3,6 +3,7 @@ package com.admin.service;
 import java.util.List;
 
 import com.admin.bean.BedAllocationBean;
+import com.admin.bean.PatientBean;
 
 public interface BedAllocationService {
 
@@ -11,4 +12,5 @@ public interface BedAllocationService {
 	List<BedAllocationBean> getAll();
 	void delete(int id);
 	void update(BedAllocationBean bedAllocationBean);
+	PatientBean getDetails(int id);
 }

@@ -4,10 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.admin.bean.BedAllocationBean;
 import com.admin.bean.MedicationBean;
+import com.admin.bean.PatientBean;
 import com.admin.bean.RoomTypeBean;
 import com.admin.bean.WardBean;
 import com.admin.entity.BedAllocation;
@@ -23,7 +30,46 @@ public class BedAllocationServiceImpl implements BedAllocationService{
 
 	@Autowired
 	BedAllocationRepository bedAllocationRepository; 
+	
+	@Autowired
+	private RestTemplate restTemplate;
 	@Override
+	public PatientBean getDetails(int id)
+	{
+		String url = "http://localhost:8082/registration/"+id;
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<String> httpEntity = new HttpEntity<>(headers);
+
+		ResponseEntity<PatientBean> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity,
+				PatientBean.class);
+		
+		if (responseEntity.getStatusCode().is2xxSuccessful()) {
+	        // Retrieve the response body containing the BedAllocationBean
+	        PatientBean  patientBean = responseEntity.getBody();
+
+	        // Check for null before returning
+	        if (patientBean != null) {
+	            return patientBean;
+	        } else {
+	            // Handle the case where the response body is null
+	            // You can throw an exception, log a message, or return a default value
+	            // For example, throw new RuntimeException("Received null response for bedId: " + bedId);
+	        }
+	    }
+		else {
+	    	System.out.println("exception occured");
+	    	return null;
+	        // Handle non-successful HTTP status codes if needed
+	        // For example, log an error message or throw an exception
+	        // throw new RuntimeException("Failed to retrieve data. Status code: " + responseEntity.getStatusCodeValue());
+	    }
+		//BedAllocationBean bedAllocation = responseEntity.getBody();		
+		
+		//return bedAllocation;
+		return null;
+	}
 	public BedAllocationBean save(BedAllocationBean bedAllocationBean) {
 		// TODO Auto-generated method stub
 		BedAllocation bedAllocation=new BedAllocation();

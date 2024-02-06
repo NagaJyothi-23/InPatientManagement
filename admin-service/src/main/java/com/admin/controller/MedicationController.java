@@ -2,6 +2,8 @@ package com.admin.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.admin.bean.MedicationBean;
 import com.admin.entity.Medication;
-import com.admin.entity.Ward;
+import com.admin.exception.RecordNotFoundException;
 import com.admin.service.MedicationService;
 
 @RestController
@@ -25,46 +27,74 @@ public class MedicationController {
 
 	@Autowired
 	MedicationService medicationService;
-	
+	private static Logger log = LoggerFactory.getLogger(MedicationController.class.getSimpleName());
+
 	@PostMapping("/save")
 	public ResponseEntity<MedicationBean> save(@RequestBody MedicationBean medication) {
-		medicationService.save(medication);
-		ResponseEntity<MedicationBean> responseEntity = new ResponseEntity<>(medication, HttpStatus.CREATED);
-		return responseEntity;
+		log.info("Saving Medication entity");
+		try {
+			medicationService.save(medication);
+			ResponseEntity<MedicationBean> responseEntity = new ResponseEntity<>(medication, HttpStatus.CREATED);
+			log.info("Saving Medication entity is done");
+			return responseEntity;
+		} catch (Exception e) {
+			log.error("error handled");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
-	
+
 	@GetMapping("/getById/{id}")
 	public ResponseEntity<MedicationBean> getById(@PathVariable long id) {
-		MedicationBean medication=medicationService.getById(id);
-		ResponseEntity<MedicationBean> responseEntity = new ResponseEntity<>(medication, HttpStatus.OK);
-		return responseEntity;
+		log.info("Fetching Medication by Id");
+		
+			MedicationBean medication = medicationService.getById(id);
+			ResponseEntity<MedicationBean> responseEntity = new ResponseEntity<>(medication, HttpStatus.OK);
+			log.info("Fetching Medication by Id is done");
+			return responseEntity;
+		
 	}
-	
+
 	@GetMapping("/getAll")
 	public ResponseEntity<List<MedicationBean>> getAll() {
-		List<MedicationBean> list=medicationService.getAll();
-		ResponseEntity<List<MedicationBean>> responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
-		return responseEntity;
-	}
+		log.info("Fetching All Medication details");
 	
-	@DeleteMapping("/deleteById/{id}")
-	public  ResponseEntity<Medication> deleteById(@PathVariable long id)
-	{
-		medicationService.delete(id);
-		ResponseEntity<Medication> responseEntity=new ResponseEntity<>(HttpStatus.OK);
-		return responseEntity;
+			List<MedicationBean> list = medicationService.getAll();
+			ResponseEntity<List<MedicationBean>> responseEntity = new ResponseEntity<>(list, HttpStatus.OK);
+			log.info("Fetching All Medication details is done");
+			return responseEntity;
+		
 	}
-	@PutMapping
-	public ResponseEntity<MedicationBean> put(@RequestBody Medication medication) throws Exception {
 
-		MedicationBean medication1 = medicationService.getById(medication.getId());
-		if (medication1 != null) {
-			medication1.setMedicationName(medication.getMedicationName());
-			medicationService.save(medication1);
+	@DeleteMapping("/deleteById/{id}")
+	public ResponseEntity<String> deleteById(@PathVariable long id) {
+		log.info("Deleting Medication by ID");
+		try {
+			medicationService.delete(id);
+			ResponseEntity<String> responseEntity = new ResponseEntity<>("Deleted successfully",HttpStatus.OK);
+			log.info("Deleting Medication by ID is done");
+			return responseEntity;
+		} catch (RecordNotFoundException e) {
+			log.error("error handled");
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
 		}
-		ResponseEntity<MedicationBean> responseEntity = new ResponseEntity<>(medication1, HttpStatus.OK);
-		return responseEntity;
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<String> put(@RequestBody Medication medication,@PathVariable long id) throws Exception {
+
+		log.info("Updating Medication");
+		try {
+			MedicationBean medication1 = medicationService.getById(id);
+			if (medication1 != null) {
+				medication1.setMedicationName(medication.getMedicationName());
+				medicationService.save(medication1);
+			}
+			ResponseEntity<String> responseEntity = new ResponseEntity<>("MedicationType updated Successfully", HttpStatus.OK);
+			log.info("Updating Medication is done");
+			return responseEntity;
+		} catch (RecordNotFoundException e) {
+			log.error("error handled");
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+		}
 	}
 }
-	
-
