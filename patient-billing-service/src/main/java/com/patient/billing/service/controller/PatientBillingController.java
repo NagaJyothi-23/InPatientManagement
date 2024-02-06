@@ -20,6 +20,7 @@ import com.patient.billing.service.service.PatientBillingService;
 @RestController
 public class PatientBillingController {
 	@Autowired
+
 	private PatientBillingService patientBillingService;
 
 	private static Logger log = LoggerFactory.getLogger(PatientBillingController.class.getSimpleName());
@@ -48,6 +49,39 @@ public class PatientBillingController {
 		try {
 			return new ResponseEntity<List<PatientBillingBean>>(patientBillingBean, HttpStatus.OK);
 		} catch (Exception e) {
+
+	   private PatientBillingService patientBillingService;
+//    @Autowired
+//    private RestTemplate restTemplate;
+	
+	
+	
+	  @GetMapping(path="/details/{id}")
+	  public ResponseEntity<BedAllocationBean>details(@PathVariable (value ="id")Integer bedId)
+	   {
+		   System.out.println("controller");
+		  BedAllocationBean patientBillingBean= patientBillingService.getDetails(bedId);
+		   return new ResponseEntity<BedAllocationBean>(patientBillingBean,HttpStatus.OK) ;
+	    }
+	  
+	   @PostMapping(path="/save")
+	   public ResponseEntity<PatientBillingBean>save(@RequestBody PatientBillingBean patientBillingBean)
+	   {
+		   System.out.println("controller");
+		   patientBillingService.save(patientBillingBean);
+		   return new ResponseEntity<PatientBillingBean>(patientBillingBean,HttpStatus.OK) ;
+	   }
+	   
+	   @GetMapping(path="/getAll")
+	   public ResponseEntity<List<PatientBillingBean>> getAll()
+	   {
+		   System.out.println("controller");
+		   List<PatientBillingBean> patientBillingBean=patientBillingService.getAll();
+		   try {
+		   return new ResponseEntity<List<PatientBillingBean>>(patientBillingBean,HttpStatus.OK) ;
+		   }
+		   catch (Exception e) {
+
 			System.out.println(e.getMessage());
 			return new ResponseEntity<List<PatientBillingBean>>(patientBillingBean, HttpStatus.NOT_FOUND);
 		}

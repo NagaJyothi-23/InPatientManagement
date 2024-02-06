@@ -1,6 +1,6 @@
 package com.admin.exception;
 
-public class RecordNotFoundException extends RuntimeException{
+public class RecordNotFoundException extends Exception{
 
 	public RecordNotFoundException(String message) {
 		super(message);
