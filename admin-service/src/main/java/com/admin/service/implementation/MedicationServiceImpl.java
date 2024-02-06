@@ -45,7 +45,8 @@ public class MedicationServiceImpl implements MedicationService{
 	@Override
 	public void delete(long id) {
 		// TODO Auto-generated method stub
-	medicationRepository.deleteById(id);
+		medicationRepository.findById(id).orElseThrow(()->new RecordNotFoundException("No Record Found with given id"));
+	    medicationRepository.deleteById(id);
 	
 	}
 

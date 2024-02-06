@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 public class Ward {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "wardId")
 	private long id;
 	@Column(name = "wardName")

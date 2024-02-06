@@ -73,12 +73,13 @@ public class BedAllocation {
 		this.noOfDays = noOfDays;
 	}
 
-	public RoomTypeEntity getRoomtypeId() {
+
+	public RoomTypeEntity getRoomTypeId() {
 		return roomTypeId;
 	}
 
-	public void setRoomtypeId(RoomTypeEntity roomtypeId) {
-		this.roomTypeId = roomtypeId;
+	public void setRoomTypeId(RoomTypeEntity roomTypeId) {
+		this.roomTypeId = roomTypeId;
 	}
 
 	public Date getStartDate() {
@@ -107,8 +108,10 @@ public class BedAllocation {
 
 	@Override
 	public String toString() {
-		return "BedAllocation [id=" + id + ", patientId=" + patientId + ", noOfDays=" + noOfDays + ", roomtypeId="
+		return "BedAllocation [id=" + id + ", patientId=" + patientId + ", noOfDays=" + noOfDays + ", roomTypeId="
 				+ roomTypeId + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
 	}
+
+	
 
 }

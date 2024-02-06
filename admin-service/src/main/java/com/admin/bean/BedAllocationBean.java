@@ -1,21 +1,13 @@
 package com.admin.bean;
 
-
 import java.sql.Date;
-
-
-import com.admin.entity.RoomTypeEntity;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 public class BedAllocationBean {
 
 	private int id;
 	private int patientId;
 	private int noOfDays;
-	private RoomTypeEntity roomtypeId;
+	private RoomTypeBean roomTypeId;
 	private Date startDate;
 	private Date endDate;
 	private String status;
@@ -25,13 +17,13 @@ public class BedAllocationBean {
 		// TODO Auto-generated constructor stub
 	}
 
-	public BedAllocationBean(int id, int patientId, int noOfDays, RoomTypeEntity roomtypeId, Date startDate,
+	public BedAllocationBean(int id, int patientId, int noOfDays, RoomTypeBean roomTypeId, Date startDate,
 			Date endDate, String status) {
 		super();
 		this.id = id;
 		this.patientId = patientId;
 		this.noOfDays = noOfDays;
-		this.roomtypeId = roomtypeId;
+		this.roomTypeId = roomTypeId;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.status = status;
@@ -61,12 +53,12 @@ public class BedAllocationBean {
 		this.noOfDays = noOfDays;
 	}
 
-	public RoomTypeEntity getRoomtypeId() {
-		return roomtypeId;
+	public RoomTypeBean getRoomTypeId() {
+		return roomTypeId;
 	}
 
-	public void setRoomtypeId(RoomTypeEntity roomtypeId) {
-		this.roomtypeId = roomtypeId;
+	public void setRoomTypeId(RoomTypeBean roomTypeId) {
+		this.roomTypeId = roomTypeId;
 	}
 
 	public Date getStartDate() {
@@ -95,10 +87,11 @@ public class BedAllocationBean {
 
 	@Override
 	public String toString() {
-		return "BedAllocationBean [id=" + id + ", patientId=" + patientId + ", noOfDays=" + noOfDays + ", roomtypeId="
-				+ roomtypeId + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
+		return "BedAllocationBean [id=" + id + ", patientId=" + patientId + ", noOfDays=" + noOfDays + ", roomTypeId="
+				+ roomTypeId + ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
 	}
 
 }
+
 
 
