@@ -83,6 +83,12 @@ public class BedAllocationController {
 		bedAllocationService.delete(id);
 		ResponseEntity<BedAllocationBean> responseEntity = new ResponseEntity<>(HttpStatus.OK);
 
+
+	public ResponseEntity<BedAllocationBean> deleteById(@PathVariable int id) {
+		bedAllocationService.delete(id);
+		ResponseEntity<BedAllocationBean> responseEntity = new ResponseEntity<>(HttpStatus.OK);
+
+
 	public ResponseEntity<String> deleteById(@PathVariable int id) {
 		log.info("Deleting BedAllocation By Id");
 		try {

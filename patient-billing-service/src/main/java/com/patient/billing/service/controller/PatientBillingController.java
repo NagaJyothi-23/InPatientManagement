@@ -23,6 +23,9 @@ public class PatientBillingController {
 
 	private PatientBillingService patientBillingService;
 
+
+	private PatientBillingService patientBillingService;
+
 	private static Logger log = LoggerFactory.getLogger(PatientBillingController.class.getSimpleName());
 
 	@GetMapping(path = "/details/{id}")
@@ -49,6 +52,7 @@ public class PatientBillingController {
 		try {
 			return new ResponseEntity<List<PatientBillingBean>>(patientBillingBean, HttpStatus.OK);
 		} catch (Exception e) {
+
 
 	   private PatientBillingService patientBillingService;
 //    @Autowired
@@ -85,7 +89,79 @@ public class PatientBillingController {
 			System.out.println(e.getMessage());
 			return new ResponseEntity<List<PatientBillingBean>>(patientBillingBean, HttpStatus.NOT_FOUND);
 		}
+
+	   }
+	   @GetMapping(path="/fetch/{id}")
+	   public ResponseEntity<PatientBillingBean> getById(@PathVariable(value = "id") Integer billingId)
+	   {
+			PatientBillingBean patientBillingEntity=patientBillingService.getById(billingId);
+		   return new ResponseEntity<PatientBillingBean>(patientBillingEntity,HttpStatus.OK) ;
+	   }
+	   
+//	   @PutMapping(path="update{/id}/payedAmount")
+//        public ResponseEntity<PatientBillingEntity> update(@PathVariable (value = "id") @RequestParam (value = "payedAmount"))
+//        {
+//		   
+//			return null;
+//		   
+//        }
+	   
+	   @PutMapping(path="/update")
+	   public ResponseEntity<PatientBillingEntity> update(
+	           @RequestParam (value="billId") int billingId,
+	           @RequestParam (value="paymentAmount") double paymentAmount) {
+	       
+		      
+		   PatientBillingEntity updatedEntity = patientBillingService.update(billingId, paymentAmount);
+		  try {
+		   if (updatedEntity != null) {
+	           return new ResponseEntity<>(updatedEntity, HttpStatus.OK);
+	       } else {
+	           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	       }
+		  }
+		  catch(Exception e)
+		  {
+			  System.out.println("exception occured");
+			  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		  }
+	   
+
+
+	private static Logger log = LoggerFactory.getLogger(PatientBillingController.class.getSimpleName());
+
+	@GetMapping(path = "/details/{id}")
+	public ResponseEntity<BedAllocationBean> details(@PathVariable(value = "id") Integer bedId) {
+		log.info("bed details{}"+bedId);
+		System.out.println("controller");
+		BedAllocationBean patientBillingBean = patientBillingService.getDetails(bedId);
+		return new ResponseEntity<BedAllocationBean>(patientBillingBean, HttpStatus.OK);
 	}
+
+	@PostMapping(path = "/save")
+	public ResponseEntity<PatientBillingBean> save(@RequestBody PatientBillingBean patientBillingBean) {
+		System.out.println("controller");
+		log.info("billing save method{}"+patientBillingBean);
+		patientBillingService.save(patientBillingBean);
+		return new ResponseEntity<PatientBillingBean>(patientBillingBean, HttpStatus.OK);
+	}
+
+	@GetMapping(path = "/getAll")
+	public ResponseEntity<List<PatientBillingBean>> getAll() {
+		System.out.println("controller");
+		log.info("billing getAll method{}");
+		List<PatientBillingBean> patientBillingBean = patientBillingService.getAll();
+		try {
+			return new ResponseEntity<List<PatientBillingBean>>(patientBillingBean, HttpStatus.OK);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return new ResponseEntity<List<PatientBillingBean>>(patientBillingBean, HttpStatus.NOT_FOUND);
+		}
+	}
+
+
+	}
+
 
 	@GetMapping(path = "/fetch/{id}")
 	public ResponseEntity<PatientBillingBean> getById(@PathVariable(value = "id") Integer billingId) {
