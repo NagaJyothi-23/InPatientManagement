@@ -78,6 +78,11 @@ public class BedAllocationController {
 	}
 
 	@DeleteMapping("/deleteById/{id}")
+
+	public ResponseEntity<BedAllocationBean> deleteById(@PathVariable int id) {
+		bedAllocationService.delete(id);
+		ResponseEntity<BedAllocationBean> responseEntity = new ResponseEntity<>(HttpStatus.OK);
+
 	public ResponseEntity<String> deleteById(@PathVariable int id) {
 		log.info("Deleting BedAllocation By Id");
 		try {
@@ -85,6 +90,7 @@ public class BedAllocationController {
 		  bedAllocationService.delete(id);
 		  ResponseEntity responseEntity = new ResponseEntity<>("Deleted Successfully",HttpStatus.OK);
 		  log.info("Deleting BedAllocation By Id is done");
+
 		return responseEntity;
 		}catch(RecordNotFoundException e) {
 			  log.error("error handled");

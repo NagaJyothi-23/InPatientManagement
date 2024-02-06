@@ -33,11 +33,11 @@ private PatientService patientService;
 	return responseEntity;
 }
 
-@GetMapping
-public List<PatientBean> getAll() {
+@GetMapping("/getAll")
+public ResponseEntity<List<PatientBean>> getAll() {
 	
 	 List<PatientBean> patientBean=patientService.getAll();
-     return (List<PatientBean>) new ResponseEntity<List<PatientBean>>(patientBean,HttpStatus.OK) ;
+     return  new ResponseEntity<List<PatientBean>>(patientBean,HttpStatus.OK) ;
      
 	}
 
